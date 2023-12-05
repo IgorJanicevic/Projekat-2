@@ -1,0 +1,7 @@
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\bin\Debug\ProjekatProxy.exe.config
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\bin\Debug\ProjekatProxy.exe
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\bin\Debug\ProjekatProxy.pdb
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\obj\Debug\ProjekatProxy.csproj.AssemblyReference.cache
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\obj\Debug\ProjekatProxy.csproj.CoreCompileInputs.cache
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\obj\Debug\ProjekatProxy.exe
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\obj\Debug\ProjekatProxy.pdb
