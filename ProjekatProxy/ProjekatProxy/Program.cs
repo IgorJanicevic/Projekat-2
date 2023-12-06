@@ -10,34 +10,40 @@ namespace ProjekatProxy
     {
         static void Main(string[] args)
         {
-            // Kreiranje instanci klase Server, Proxy i Client
-            var server = new Server();
-            var proxy = new Proxy(server, TimeSpan.FromHours(24)); // Postavljamo vreme isteka lokalnih kopija na 24 sata
-            var client = new Client();
+            // Kreiranje instanci Servera, Proxy-ja i Klijenta
+            Server server = new Server();
+            Proxy proxy = new Proxy(server, TimeSpan.FromHours(24)); // Postavljamo vreme isteka lokalnih kopija na 24 sata
+            Client client = new Client();
 
-            // Kreiranje instance klase Device
-            var deviceID = 1;
-            Device device = new Device(deviceID, isAnalog: true, initialTime: DateTime.Now);
+            // Kreiranje instanci uređaja
+            Device device1 = new Device(1);
+            Device device2 = new Device(2);
 
-            // Simulacija slanja merenja sa uređaja na server
-            device.RecordMeasurement(50.0);
+            // Simulacija slanja merenja sa uređaja
+            device1.RecordMeasurement(75.0, isAnalog: true);
+            device2.RecordMeasurement(120.0, isAnalog: false);
 
             // Simulacija zahteva klijenta preko proxy-ja
             var lastAccessTime = DateTime.Now.AddMinutes(-10); // Poslednji pristup pre 10 minuta
-            var requestData = proxy.ProcessClientRequest(deviceID, lastAccessTime);
+            var requestData1 = proxy.ProcessClientRequest(device1.UniqueID, lastAccessTime);
+            var requestData2 = proxy.ProcessClientRequest(device2.UniqueID, lastAccessTime);
 
             // Simulacija primanja podataka od servera od strane klijenta
-            client.ReceiveDataFromServer(requestData);
+            client.ReceiveDataFromServer(requestData1);
+            client.ReceiveDataFromServer(requestData2);
 
             // Prikaz rezultata
-            Console.WriteLine("Data received by client:");
+            Console.WriteLine($"Data received by client for Device {device1.UniqueID}:");
             foreach (var data in client.GetAllAnalogData())
             {
                 Console.WriteLine($"- {data}");
             }
 
-          
-
+            Console.WriteLine($"Data received by client for Device {device2.UniqueID}:");
+            foreach (var data in client.GetAllDigitalData())
+            {
+                Console.WriteLine($"- {data}");
+            }
         }
     }
 }

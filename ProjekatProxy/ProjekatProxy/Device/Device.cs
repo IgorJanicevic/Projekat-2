@@ -6,51 +6,65 @@ using System.Threading.Tasks;
 
 namespace ProjekatProxy
 {
-    internal class Device
-    {
 
-        // Atributi klase
-        public int UniqueID { get; private set; }
+    public class Measurement
+    {
         public bool IsAnalog { get; private set; }
-        public double MeasurementValue { get; private set; }
+        public double Value { get; private set; }
+        public int DeviceID { get; private set; }
         public DateTime Timestamp { get; private set; }
 
-        // Konstruktor klase sa dodatnim parametrom za vreme
-        public Device(int uniqueID, bool isAnalog, DateTime initialTime)
+        public Measurement(int deviceID, bool isAnalog, double value)
+        {
+            DeviceID = deviceID;
+            IsAnalog = isAnalog;
+            Value = value;
+            Timestamp = DateTime.Now;
+        }
+    }
+
+
+
+
+
+    internal class Device
+    {
+        public int UniqueID { get; private set; }
+        public List<Measurement> Measurements { get; private set; }
+
+        public Device(int uniqueID)
         {
             UniqueID = uniqueID;
-            IsAnalog = isAnalog;
-            SetInitialTime(initialTime);
+            Measurements = new List<Measurement>();
         }
 
-        // Metoda za postavljanje inicijalnog vremena
-        private void SetInitialTime(DateTime initialTime)
+        public void RecordMeasurement(double value, bool isAnalog)
         {
-            Timestamp = initialTime;
-        }
-
-        // Metoda za upis podataka o merenjima
-        public void RecordMeasurement(double value)
-        {
-            MeasurementValue = value;
-            Timestamp = DateTime.Now;
+            var measurement = new Measurement(UniqueID, isAnalog, value);
+            Measurements.Add(measurement);
 
             // Pozovi metodu za slanje merenja
-            SendMeasurement();
+            SendMeasurementToServer(measurement);
         }
 
-        // Privatna metoda za slanje merenja
-        private void SendMeasurement()
+        private void SendMeasurementToServer(Measurement measurement)
         {
-            // Logika za slanje merenja na server
-            Console.WriteLine($"Device {UniqueID}: Measurement sent to server. Value: {MeasurementValue}, Timestamp: {Timestamp}");
+            // Implementiraj logiku za slanje merenja na server
+            Console.WriteLine($"Device {UniqueID}: Measurement sent to server. Value: {measurement.Value}, Timestamp: {measurement.Timestamp}");
         }
 
-        // Metoda za proveru tipa merenja
         public string GetMeasurementType()
         {
-            return IsAnalog ? "Analog" : "Digital";
+            // Povrati tip merenja poslednjeg merenja
+            if (Measurements.Count > 0)
+            {
+                return Measurements[Measurements.Count - 1].IsAnalog ? "Analog" : "Digital";
+
+            }
+            return "Unknown";
         }
+
+
 
 
     }
