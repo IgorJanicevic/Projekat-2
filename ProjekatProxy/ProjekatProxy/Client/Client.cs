@@ -23,6 +23,9 @@ namespace ProjekatProxy
         }
 
         // Metoda za dobavljanje poslednje ažurirane vrednosti odabranog ID-ja
+        /*
+         
+         */
         public double GetLastUpdatedValueByDeviceID(int deviceID)
         {
             LogEvent($"Last updated value requested for Device ID: {deviceID}");
