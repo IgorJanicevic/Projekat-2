@@ -6,17 +6,9 @@ using System.Threading.Tasks;
 
 namespace ProjekatProxy
 {
-<<<<<<< HEAD
 
     public class Measurement
     {
-=======
-    internal class Device
-    {  
-    
-                // Atributi klase
-        public int UniqueID { get; private set; }
->>>>>>> 66e28acac6d638004315361a7b4d818c3f509593
         public bool IsAnalog { get; private set; }
         public double Value { get; private set; }
         public int DeviceID { get; private set; }
@@ -30,8 +22,6 @@ namespace ProjekatProxy
             Timestamp = DateTime.Now;
         }
     }
-
-
 
 
 
@@ -60,7 +50,6 @@ namespace ProjekatProxy
             // Implementiraj logiku za slanje merenja na server
             Console.WriteLine($"Device {UniqueID}: Measurement sent to server. Value: {measurement.Value}, Timestamp: {measurement.Timestamp}");
         }
-
 
         public string GetMeasurementType()
         {
