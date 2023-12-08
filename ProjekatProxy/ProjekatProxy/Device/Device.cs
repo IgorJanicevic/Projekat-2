@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace ProjekatProxy
 {
     internal class Device
-    {
-
-        // Atributi klase
+    {  
+    
+                // Atributi klase
         public int UniqueID { get; private set; }
         public bool IsAnalog { get; private set; }
         public double MeasurementValue { get; private set; }
