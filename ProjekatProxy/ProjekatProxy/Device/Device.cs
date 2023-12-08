@@ -23,6 +23,7 @@ namespace ProjekatProxy
             SetInitialTime(initialTime);
         }
 
+        // Komentar
         // Metoda za postavljanje inicijalnog vremena
         private void SetInitialTime(DateTime initialTime)
         {
