@@ -15,7 +15,7 @@ namespace ProjekatProxy
             receivedData = new List<double>();
         }
 
-        // Metoda za dobavljanje svih podataka odabranog ID-ja
+        // Metoda za dobavljanje svih podataka odabranog ID-ja xD
         public List<double> GetDataByDeviceID(int deviceID)
         {
             LogEvent($"Data requested for Device ID: {deviceID}");
@@ -23,6 +23,9 @@ namespace ProjekatProxy
         }
 
         // Metoda za dobavljanje poslednje ažurirane vrednosti odabranog ID-ja
+        /*
+         
+         */
         public double GetLastUpdatedValueByDeviceID(int deviceID)
         {
             LogEvent($"Last updated value requested for Device ID: {deviceID}");
