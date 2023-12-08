@@ -61,6 +61,7 @@ namespace ProjekatProxy
             Console.WriteLine($"Device {UniqueID}: Measurement sent to server. Value: {measurement.Value}, Timestamp: {measurement.Timestamp}");
         }
 
+
         public string GetMeasurementType()
         {
             // Povrati tip merenja poslednjeg merenja

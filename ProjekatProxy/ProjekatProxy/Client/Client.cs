@@ -15,7 +15,7 @@ namespace ProjekatProxy
             receivedData = new List<double>();
         }
 
-        // Metoda za dobavljanje svih podataka odabranog ID-ja
+        // Metoda za dobavljanje svih podataka odabranog ID-ja xD
         public List<double> GetDataByDeviceID(int deviceID)
         {
             LogEvent($"Data requested for Device ID: {deviceID}");
