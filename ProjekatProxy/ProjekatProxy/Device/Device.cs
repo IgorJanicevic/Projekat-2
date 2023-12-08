@@ -25,6 +25,8 @@ namespace ProjekatProxy
 
 
 
+
+
     internal class Device
     {
         public int UniqueID { get; private set; }
