@@ -6,28 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjekatProxy
 {
-
-    public class Measurement
-    {
-        public int DeviceID { get; private set; }
-        public bool IsAnalog { get; private set; }
-        public double Value { get; private set; }
-        public DateTime Timestamp { get; private set; }
-
-        public Measurement(int deviceID, bool isAnalog, double value)
-        {
-            DeviceID = deviceID;
-            IsAnalog = isAnalog;
-            Value = value;
-            Timestamp = DateTime.Now;
-        }
-    }
-
-
-
-
-
-    internal class Device
+    public class Device
     {
         public int UniqueID { get; private set; }
         public List<Measurement> Measurements { get; private set; }
@@ -37,7 +16,7 @@ namespace ProjekatProxy
             UniqueID = uniqueID;
             Measurements = new List<Measurement>();
         }
-
+        /*
         public void RecordMeasurement(double value, bool isAnalog)
         {        
             Measurement measurement = new Measurement(UniqueID, isAnalog, value);
@@ -46,7 +25,7 @@ namespace ProjekatProxy
             // Pozovi metodu za slanje merenja
             SendMeasurementToServer(measurement);
         }
-
+        */
         private void SendMeasurementToServer(Measurement measurement)
         {
             // Implementiraj logiku za slanje merenja na server
