@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ProjekatProxy
 {
-    class Sending
+    public interface Sending
     {
-        private void SendMeasurementToServer(Device device)
-        {
+        void SendMeasurementToServer();
+//        {
             // Implementiraj logiku za slanje merenja na server
             //Console.WriteLine($"Device {device.UniqueID}: Measurement sent to server. Value: {device.Value}, Timestamp: {device.Timestamp}");
-        }
+ //       }
     }
 }

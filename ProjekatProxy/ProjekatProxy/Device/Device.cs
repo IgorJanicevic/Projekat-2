@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjekatProxy
 {
-    public class Device
+    public class Device : Sending
     {
         public int UniqueID { get; private set; }
         public List<Measurement> Measurements { get; private set; }
@@ -25,13 +25,13 @@ namespace ProjekatProxy
             // Pozovi metodu za slanje merenja
             SendMeasurementToServer(measurement);
         }
-        
-        private void SendMeasurementToServer(Measurement measurement)
+        */
+        public void SendMeasurementToServer()
         {
             // Implementiraj logiku za slanje merenja na server
-            Console.WriteLine($"Device {UniqueID}: Measurement sent to server. Value: {measurement.Value}, Timestamp: {measurement.Timestamp}");
+            //Console.WriteLine($"Device {UniqueID}: Measurement sent to server. Value: {measurement.Value}, Timestamp: {measurement.Timestamp}");
         }
-        */
+        
         public string GetMeasurementType()
         {
             // Povrati tip merenja poslednjeg merenja
