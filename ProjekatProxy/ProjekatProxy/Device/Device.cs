@@ -16,20 +16,10 @@ namespace ProjekatProxy
             UniqueID = uniqueID;
             Measurements = new List<Measurement>();
         }
-        /*
-        public void RecordMeasurement(double value, bool isAnalog)
-        {        
-            Measurement measurement = new Measurement(UniqueID, isAnalog, value);
-            Measurements.Add(measurement);
-
-            // Pozovi metodu za slanje merenja
-            SendMeasurementToServer(measurement);
-        }
-        */
+   
         public void SendMeasurementToServer()
         {
-            // Implementiraj logiku za slanje merenja na server
-            //Console.WriteLine($"Device {UniqueID}: Measurement sent to server. Value: {measurement.Value}, Timestamp: {measurement.Timestamp}");
+            // Implementiraj logiku za slanje merenja na server          
         }
         
         public string GetMeasurementType()

@@ -19,9 +19,9 @@ namespace ProjekatProxy
             Device device1 = new Device(1);
             Device device2 = new Device(2);
 
-            // Simulacija slanja merenja sa uređaja
-            device1.RecordMeasurement(75.0, isAnalog: true);
-            device2.RecordMeasurement(120.0, isAnalog: false);
+            // Simulacija slanja merenja sa uređaja  POTREBNA JE IZMENA
+           // device1.RecordMeasurement(75.0, isAnalog: true);
+          //  device2.RecordMeasurement(120.0, isAnalog: false);
 
             // Simulacija zahteva klijenta preko proxy-ja
             var lastAccessTime = DateTime.Now.AddMinutes(-10); // Poslednji pristup pre 10 minuta
