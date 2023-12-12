@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjekatProxy
 {
-    public class Device : Sending
+    public class Device : ISending
     {
         public int UniqueID { get; private set; }
         public List<Measurement> Measurements { get; private set; }
