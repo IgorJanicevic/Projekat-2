@@ -39,8 +39,8 @@ namespace ProjekatProxy
         }
 
         public void RecordMeasurement(double value, bool isAnalog)
-        {
-            var measurement = new Measurement(UniqueID, isAnalog, value);
+        {        
+            Measurement measurement = new Measurement(UniqueID, isAnalog, value);
             Measurements.Add(measurement);
 
             // Pozovi metodu za slanje merenja
