@@ -9,10 +9,7 @@ namespace ProjekatProxy
 
     public class Measurement
     {
-<<<<<<< Updated upstream
-=======
         public int DeviceID { get; private set; }
->>>>>>> Stashed changes
         public bool IsAnalog { get; private set; }
         public double Value { get; private set; }
         public DateTime Timestamp { get; private set; }
@@ -28,6 +25,8 @@ namespace ProjekatProxy
 
 
 
+
+
     internal class Device
     {
         public int UniqueID { get; private set; }
@@ -40,8 +39,8 @@ namespace ProjekatProxy
         }
 
         public void RecordMeasurement(double value, bool isAnalog)
-        {
-            var measurement = new Measurement(UniqueID, isAnalog, value);
+        {        
+            Measurement measurement = new Measurement(UniqueID, isAnalog, value);
             Measurements.Add(measurement);
 
             // Pozovi metodu za slanje merenja
@@ -53,7 +52,6 @@ namespace ProjekatProxy
             // Implementiraj logiku za slanje merenja na server
             Console.WriteLine($"Device {UniqueID}: Measurement sent to server. Value: {measurement.Value}, Timestamp: {measurement.Timestamp}");
         }
-
 
         public string GetMeasurementType()
         {
