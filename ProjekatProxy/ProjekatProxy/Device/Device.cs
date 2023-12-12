@@ -9,9 +9,12 @@ namespace ProjekatProxy
 
     public class Measurement
     {
+<<<<<<< Updated upstream
+=======
+        public int DeviceID { get; private set; }
+>>>>>>> Stashed changes
         public bool IsAnalog { get; private set; }
         public double Value { get; private set; }
-        public int DeviceID { get; private set; }
         public DateTime Timestamp { get; private set; }
 
         public Measurement(int deviceID, bool isAnalog, double value)
