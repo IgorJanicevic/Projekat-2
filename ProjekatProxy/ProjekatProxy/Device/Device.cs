@@ -25,13 +25,13 @@ namespace ProjekatProxy
             // Pozovi metodu za slanje merenja
             SendMeasurementToServer(measurement);
         }
-        */
+        
         private void SendMeasurementToServer(Measurement measurement)
         {
             // Implementiraj logiku za slanje merenja na server
             Console.WriteLine($"Device {UniqueID}: Measurement sent to server. Value: {measurement.Value}, Timestamp: {measurement.Timestamp}");
         }
-
+        */
         public string GetMeasurementType()
         {
             // Povrati tip merenja poslednjeg merenja
