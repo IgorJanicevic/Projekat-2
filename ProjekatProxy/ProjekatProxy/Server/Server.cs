@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Console;
 
 namespace ProjekatProxy
 {
@@ -32,7 +34,15 @@ namespace ProjekatProxy
         // Metoda za logovanje događaja
         private void LogEvent(string message)
         {
-            Console.WriteLine($"[Server] {DateTime.Now}: {message}");
+            //Console.WriteLine($"[Server] {DateTime.Now}: {message}");
+            while (true)
+            {
+                string path = @"C: \Users\PC User\Documents\GitHub\Projekat - 2\ProjekatProxy\ProjekatProxy\Server\Ispis.txt";
+                string contents = "tekst";
+
+                File.WriteAllText(path, contents);
+            }
+            
         }
 
     }
