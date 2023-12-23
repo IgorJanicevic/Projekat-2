@@ -11,21 +11,23 @@ namespace ProjekatProxy
         public int UniqueID { get; private set; }
         public List<Measurement> Measurements { get; private set; }
 
+        private Random random = new Random();
+
         public Device(int id)
         {
             UniqueID = id;
             Measurements = new List<Measurement>();
         }
 
-        public void RecordMeasurement()
+        public void RecordMeasurement(Random r)
         {
             try
             {
-                Random random = new Random();
-                double vv = random.NextDouble() * 100;
+                
+                double vv = r.NextDouble() * 100;
                 double value= Math.Round(vv,2);
-                bool isAnalog = random.Next(2) == 0;
-                int UniqueID = random.Next(1, 100);
+                bool isAnalog = r.Next(2) == 0;
+                int UniqueID = r.Next(1, 100);
                 //Measurement measurement = new Measurement(UniqueID, isAnalog, value);
 
                 int tmp = 0;
@@ -48,7 +50,8 @@ namespace ProjekatProxy
 
             }catch(Exception ex)
             {
-                Console.WriteLine("GRESKA PRI MERENJu");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("GRESKA PRI MERENJU");
             }
 
             // Pozovi metodu za slanje merenja

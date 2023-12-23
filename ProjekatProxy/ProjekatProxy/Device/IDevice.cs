@@ -8,7 +8,7 @@ namespace ProjekatProxy
 {
     public interface IDevice
     {
-        void RecordMeasurement();
+        void RecordMeasurement(Random r);
         void SendMeasurementToServer();
     }
 }

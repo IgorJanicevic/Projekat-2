@@ -10,8 +10,8 @@ namespace ProjekatProxy
 {
     public class Server : IServer
     {
-        private readonly List<Measurement> dataStore; // Za čuvanje podataka o merenjima
-        //private string databasePath = "measurement_database.txt";
+        public List<Measurement> dataStore; // Za čuvanje podataka o merenjima
+        
 
         public Server()
         {
@@ -22,7 +22,7 @@ namespace ProjekatProxy
         public void WriteData(Measurement measurement)
         {
             dataStore.Add(measurement);
-            LogEvent($"Data written: {measurement}");
+            LogEvent($"{measurement}");
         }
 
         // Metoda za dobavljanje podataka od proxy servera
@@ -36,15 +36,13 @@ namespace ProjekatProxy
         // Metoda za logovanje događaja
         public void LogEvent(string message)
         {
-            //Console.WriteLine($"[Server] {DateTime.Now}: {message}");
-            while (true)
-            {
-                string filePath = "C:\\Users\\HomePC\\Documents\\GitHub\\Projekat-2\\ProjekatProxy\\ProjekatProxy\\Server\\BazaPodataka.txt";
-                //string contents = "tekst";
+       
+            string filePath = "C:\\Users\\HomePC\\Documents\\GitHub\\Projekat-2\\ProjekatProxy\\ProjekatProxy\\Server\\BazaPodataka.txt";
 
-                File.WriteAllText(filePath, message);
-            }
+           
+                File.AppendAllText(filePath, message + "\n");
             
+
         }
 
     }
