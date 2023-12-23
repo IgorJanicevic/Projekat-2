@@ -49,6 +49,7 @@
     <Compile Include="Device\IDevice.cs" />
     <Compile Include="Device\Measurement.cs" />
     <Compile Include="IProxy.cs" />
+    <Compile Include="Konekcije\SendMeasureToServerDTO.cs" />
     <Compile Include="Server\IServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -58,5 +59,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

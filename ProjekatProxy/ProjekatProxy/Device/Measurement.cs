@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,19 @@ namespace ProjekatProxy
             IsAnalog = isAnalog;
             Value = value;
             Timestamp = DateTime.Now;
+        }
+
+        public void UpdateValues(double val,bool analog)
+        {
+            Timestamp = DateTime.Now;
+            Value   = val;
+            IsAnalog |= analog;
+
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0},{1},{2},{3}",DeviceID,Value,IsAnalog,Timestamp);
         }
     }
 }

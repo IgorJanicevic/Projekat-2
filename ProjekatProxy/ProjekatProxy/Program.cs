@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +19,17 @@ namespace ProjekatProxy
             // Kreiranje instanci uređaja
             Device device1 = new Device(1);
             Device device2 = new Device(2);
+            
+            for(int i = 0;i < 5; i++)
+            {
+                device1.RecordMeasurement();
+              
+            }
+            
+            
+
+            SendMeasureToServerDTO sendMeasureToServerDTO = new SendMeasureToServerDTO();
+            sendMeasureToServerDTO.SlanjeMerenja(server,device1);
 
             // Simulacija slanja merenja sa uređaja  POTREBNA JE IZMENA
            // device1.RecordMeasurement(75.0, isAnalog: true);

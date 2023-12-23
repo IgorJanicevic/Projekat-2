@@ -39,10 +39,10 @@ namespace ProjekatProxy
             //Console.WriteLine($"[Server] {DateTime.Now}: {message}");
             while (true)
             {
-                string path = @"C: \Users\PC User\Documents\GitHub\Projekat - 2\ProjekatProxy\ProjekatProxy\Server\Ispis.txt";
-                string contents = "tekst";
+                string filePath = "C:\\Users\\HomePC\\Documents\\GitHub\\Projekat-2\\ProjekatProxy\\ProjekatProxy\\Server\\BazaPodataka.txt";
+                //string contents = "tekst";
 
-                File.WriteAllText(path, contents);
+                File.WriteAllText(filePath, message);
             }
             
         }
