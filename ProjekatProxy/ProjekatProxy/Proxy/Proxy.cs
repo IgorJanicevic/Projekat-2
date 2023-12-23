@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjekatProxy
 {
-    internal class Proxy
+    internal class Proxy : IProxy
     {
         private readonly Dictionary<int, List<double>> localDataStore; // Lokalno čuvanje podataka
         private readonly Server server; // Reference na server
@@ -29,7 +29,7 @@ namespace ProjekatProxy
             }
 
             LogEvent($"Local copy not found or outdated for Device ID {deviceID}. Requesting data from server.");
-            var serverData = server.GetData();
+            var serverData = server.GetDataFromProxy();
 
             // Ažuriranje lokalne kopije podataka
             UpdateLocalCopy(deviceID, serverData);

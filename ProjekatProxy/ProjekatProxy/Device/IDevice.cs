@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace ProjekatProxy
 {
-    public interface ISending
+    public interface IDevice
     {
+        void RecordMeasurement();
         void SendMeasurementToServer();
     }
 }

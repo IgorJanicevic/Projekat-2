@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjekatProxy
 {
-    internal class Client
+    public class Client : IClient
     {
         private readonly List<double> receivedData; // Lista za čuvanje primljenih podataka
 
@@ -15,6 +15,8 @@ namespace ProjekatProxy
             receivedData = new List<double>();
         }
 
+       
+
         // Metoda za dobavljanje svih podataka odabranog ID-ja xD
         public List<double> GetDataByDeviceID(int deviceID)
         {
@@ -22,10 +24,7 @@ namespace ProjekatProxy
             return receivedData.Where(data => data == deviceID).ToList();
         }
 
-        // Metoda za dobavljanje poslednje ažurirane vrednosti odabranog ID-ja
-        /*
-         
-         */
+        // Metoda za dobavljanje poslednje ažurirane vrednosti odabranog ID-ja            
         public double GetLastUpdatedValueByDeviceID(int deviceID)
         {
             LogEvent($"Last updated value requested for Device ID: {deviceID}");

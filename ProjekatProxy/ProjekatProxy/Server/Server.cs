@@ -8,31 +8,33 @@ using static System.Console;
 
 namespace ProjekatProxy
 {
-    internal class Server
+    public class Server : IServer
     {
-        private readonly List<double> dataStore; // Za čuvanje podataka o merenjima
+        private readonly List<Measurement> dataStore; // Za čuvanje podataka o merenjima
+        //private string databasePath = "measurement_database.txt";
 
         public Server()
         {
-            dataStore = new List<double>();
+            dataStore = new List<Measurement>();
         }
 
         // Metoda za upis podataka o merenjima
-        public void WriteData(double measurement)
+        public void WriteData(Measurement measurement)
         {
             dataStore.Add(measurement);
             LogEvent($"Data written: {measurement}");
         }
 
         // Metoda za dobavljanje podataka od proxy servera
-        public List<double> GetData()
+        public List<double> GetDataFromProxy()
         {
-            LogEvent("Data requested from proxy server");
-            return dataStore;
+            throw new NotImplementedException();
+
         }
 
+
         // Metoda za logovanje događaja
-        private void LogEvent(string message)
+        public void LogEvent(string message)
         {
             //Console.WriteLine($"[Server] {DateTime.Now}: {message}");
             while (true)
