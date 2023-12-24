@@ -12,6 +12,7 @@ namespace ProjekatProxy
         public List<Measurement> Measurements { get; private set; }
 
         private Random random = new Random();
+        private readonly SendMeasureToServerOn5Minutes smts= new SendMeasureToServerOn5Minutes();
 
         public Device(int id)
         {
@@ -59,13 +60,7 @@ namespace ProjekatProxy
         }
 
 
-        public void SendMeasurementToServer()
-        {
-            // Implementiraj logiku za slanje merenja na server
-
-
-            
-        }
+        
         
         public string GetMeasurementType()
         {

@@ -27,13 +27,17 @@ namespace ProjekatProxy
             List<Device> devices = new List<Device>();
             devices.Add(device1);
             devices.Add(device2);
-            
-           
 
-           
-            // Kreiranje timera koji će pozivati metodu svakih 5 minuta
-            Timer timer = new Timer(SendMeasureOn5Minutes, new Tuple<Server, List<Device>>(server, devices), 0, 1 * 60 * 1000); // 5 minuta u milisekundama                    
-            Timer timer1 = new Timer(CreateNewMeasure, new Tuple<List<Device>>(devices),0, 1 * 60 * 300);
+
+            //Kreiranje merenja svaki minut, za svaki uredjaj
+            CreateMeasure cm = new CreateMeasure();
+            cm.Create(devices);
+
+
+
+            //Slanje svih merenja sa svih uredjaja koji se ne nalaze na serveru
+            SendMeasureToServerOn5Minutes sm= new SendMeasureToServerOn5Minutes();
+            sm.SendMeasure(server, devices);
            
             
 
@@ -61,54 +65,18 @@ namespace ProjekatProxy
             }
             */
 
+
+
+
+
             Console.WriteLine("Aplikacija radi. Pritisnite Enter da završite.");
             Console.ReadLine();
 
-           
-
-            timer.Dispose();
-            timer1.Dispose();
+            sm.Dispose();
+            cm.Dispose();
         }
 
-        private static void SendMeasureOn5Minutes(object state)
-        {
-            // Ovde možete pozvati željenu metodu koja treba da se izvršava svakih 5 minuta
-            Console.WriteLine($"Pozvana je metoda u: {DateTime.Now}");
 
-
-            var arguments = (Tuple<Server, List<Device>>)state;
-            Server server = arguments.Item1;
-            List<Device> devices = arguments.Item2;
-
-
-
-            SendMeasureToServerDTO sendMeasureToServerDTO = new SendMeasureToServerDTO();
-
-            foreach(Device device in devices)
-            {
-                sendMeasureToServerDTO.SlanjeMerenja(server, device);
-               // device.Measurements.Clear();
-            }
-
-
-        }
-        private static void CreateNewMeasure(object state)
-        {
-            Console.WriteLine($"Merenje je izv u: {DateTime.Now}");
-
-            var arguments = (Tuple<List<Device>>)state;
-            List<Device> devs = arguments.Item1;
-            Random random = new Random();
-
-            foreach(Device dev in devs)
-            {
-                dev.Measurements.Clear();
-                for(int i = 0; i < 10; i++)
-                {
-                    dev.RecordMeasurement(random);
-                }
-            }
-        }
         private static void AddDeviceToList(List<Device> d)
         {
             Console.WriteLine("Unesi ID: ");
