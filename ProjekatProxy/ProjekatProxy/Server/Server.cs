@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Console;
@@ -10,28 +12,55 @@ namespace ProjekatProxy
 {
     public class Server : IServer
     {
-        public List<Measurement> dataStore; // Za čuvanje podataka o merenjima
-        
+       // public List<Measurement> dataStore; // Za čuvanje podataka o merenjima
 
-        public Server()
+        private ServerListenClient slp = new ServerListenClient();
+
+        private TcpListener tcpListener; // Za slusanje zahteva od proxy
+        private TcpClient tcpClient; // 
+
+
+        public Server(int port)
         {
-            dataStore = new List<Measurement>();
+            //dataStore = new List<Measurement>();
+
+            tcpListener = new TcpListener(IPAddress.Any, port);
+            tcpListener.Start();
+            Console.WriteLine("Server listening on port " + port);
+
+           
         }
+
+        //Metoda za prihvatanje zahteva od proxy
+        public void AcceptProxy()
+        {
+           
+            tcpClient= slp.AcceptClient(tcpListener);                      
+        }
+
+        //Metoda za prijema zahteva od proxy
+        public string AcceptMessageFromProxy()
+        {
+            string option= slp.StartReading(tcpClient);
+            return option;
+        }
+
+
+
+
+
+
+
+
+
+
 
         // Metoda za upis podataka o merenjima
         public void WriteData(Measurement measurement)
         {
-            dataStore.Add(measurement);
+            //dataStore.Add(measurement);
             LogEvent($"{measurement}");
-        }
-
-        // Metoda za dobavljanje podataka od proxy servera
-        public List<double> GetDataFromProxy()
-        {
-            throw new NotImplementedException();
-
-        }
-
+        }              
 
         // Metoda za logovanje događaja
         public void LogEvent(string message)
@@ -43,7 +72,7 @@ namespace ProjekatProxy
                 File.AppendAllText(filePath, message + "\n");
             
 
-        }
+        }       
 
     }
 }

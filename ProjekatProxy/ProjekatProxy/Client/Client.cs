@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,13 +10,46 @@ namespace ProjekatProxy
     public class Client : IClient
     {
         private readonly List<double> receivedData; // Lista za čuvanje primljenih podataka
+        private TcpClient tcpClient;
+
 
         public Client()
         {
             receivedData = new List<double>();
+
+            try
+            {
+
+                tcpClient = new TcpClient("127.0.0.1", 5000);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "Clin");
+            }
+            Console.WriteLine("Connected to Proxy");
+
+            // Ovde možete implementirati logiku za slanje poruka serveru
+
+            SendMessage("Client connected to Proxy");
         }
 
-       
+        private void SendMessage(string message)
+        {
+            try
+            {
+                NetworkStream networkStream = tcpClient.GetStream();
+                byte[] buffer = Encoding.ASCII.GetBytes(message);
+                networkStream.Write(buffer, 0, buffer.Length);
+                Console.WriteLine("Sent message to server: " + message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + "PROXY MESSAGE");
+            }
+        }
+
+
 
         // Metoda za dobavljanje svih podataka odabranog ID-ja xD
         public List<double> GetDataByDeviceID(int deviceID)
@@ -69,11 +103,13 @@ namespace ProjekatProxy
         }
 
         // Metoda za simulaciju dobijanja podataka od servera
-        public void ReceiveDataFromServer(List<double> data)
+        public void ReceiveDataFromProxy(List<double> data)
         {
             receivedData.AddRange(data);
             LogEvent("Data received from server");
         }
+
+        
 
         // Metoda za logovanje događaja
         private void LogEvent(string message)

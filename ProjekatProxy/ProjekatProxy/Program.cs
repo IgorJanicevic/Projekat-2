@@ -15,11 +15,21 @@ namespace ProjekatProxy
         {
             
           //Kreiranje instanci Servera, Proxy-ja i Klijenta
-            Server server = new Server();
+            Server server = new Server(8080);
             Proxy proxy = new Proxy(server, TimeSpan.FromHours(24)); // Postavljamo vreme isteka lokalnih kopija na 24 sata
-            Client client = new Client();
+            server.AcceptProxy();
+            server.AcceptMessageFromProxy();
 
-          //Lista uredjaja
+
+            Client client = new Client();
+            proxy.ProxyAcceptClient();          
+            proxy.AcceptClientMessage();
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("**************************************************************************************");
+
+            //Lista uredjaja
             List<Device> devices = new List<Device>();
             
           //string za izbor u hendleru

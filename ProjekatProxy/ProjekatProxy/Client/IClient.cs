@@ -8,7 +8,7 @@ namespace ProjekatProxy
 {
     public interface IClient
     {
-        void ReceiveDataFromServer(List<double> data);
+        void ReceiveDataFromProxy(List<double> data);
         //void LogEvent(string message);
         List<double> GetAllDigitalData();
         List<double> GetAllAnalogData();

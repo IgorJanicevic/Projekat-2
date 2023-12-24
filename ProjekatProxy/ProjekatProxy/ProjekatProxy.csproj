@@ -48,10 +48,11 @@
     <Compile Include="Device\Device.cs" />
     <Compile Include="Device\IDevice.cs" />
     <Compile Include="Device\Measurement.cs" />
-    <Compile Include="IProxy.cs" />
+    <Compile Include="Proxy\IProxy.cs" />
     <Compile Include="Device\CreateMeasure.cs" />
     <Compile Include="Konekcije\SendMeasureToServerDTO.cs" />
     <Compile Include="Konekcije\SendMeasureToServerOn5Minutes.cs" />
+    <Compile Include="Konekcije\ServerListenClient.cs" />
     <Compile Include="Server\IServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -8,6 +8,6 @@ namespace ProjekatProxy
 {
     public interface IProxy
     {
-        List<double> ProcessClientRequest(int deviceID, DateTime lastAccessTime);
+        //List<double> ProcessClientRequest(int deviceID, DateTime lastAccessTime);
     }
 }
