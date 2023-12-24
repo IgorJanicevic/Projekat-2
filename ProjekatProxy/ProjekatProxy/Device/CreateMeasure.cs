@@ -10,14 +10,13 @@ namespace ProjekatProxy
     public class CreateMeasure
     {        
         private Timer timer;
+     
 
-        
-
-        public void Create(List<Device> dev)
+        public void Create(Device dev)
         {
             try
             {
-                timer = new Timer(CreateNewMeasure, new Tuple<List<Device>>(dev), 0, 1 * 60 * 300);
+                timer = new Timer(CreateNewMeasure, new Tuple<Device>(dev), 0, 1 * 60 * 300);
             }catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
@@ -27,6 +26,7 @@ namespace ProjekatProxy
 
         public void Dispose()
         {
+            if(timer != null) 
             timer.Dispose();
         }
 
@@ -34,18 +34,16 @@ namespace ProjekatProxy
         {
             Console.WriteLine($"Merenje je izv u: {DateTime.Now}");
 
-            var arguments = (Tuple<List<Device>>)state;
-            List<Device> devs = arguments.Item1;
+            var arguments = (Tuple<Device>)state;
+            Device dev = arguments.Item1;
             Random random = new Random();
-
-            foreach (Device dev in devs)
-            {
+           
                 //dev.Measurements.Clear();
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     dev.RecordMeasurement(random);
                 }
-            }
+            
         }
     }
 }

@@ -10,13 +10,14 @@ namespace ProjekatProxy
     public class SendMeasureToServerOn5Minutes
     {
         private Timer timer1;
-        public void SendMeasure(Server server, List<Device> devices)
+        public void SendMeasure(Server server, Device devices)
         {
-            timer1 = new Timer(SendMeasureOn5Minutes, new Tuple<Server, List<Device>>(server, devices), 0, 1 * 60 * 1000); // 5 minuta u milisekundama                             
+            timer1 = new Timer(SendMeasureOn5Minutes, new Tuple<Server, Device>(server, devices), 0, 1 * 60 * 1000); // 5 minuta u milisekundama                             
         }
 
         public void Dispose()
         {
+            if (timer1 != null)
             timer1.Dispose();
         }
 
@@ -26,19 +27,18 @@ namespace ProjekatProxy
             Console.WriteLine($"Pozvana je metoda u: {DateTime.Now}");
 
 
-            var arguments = (Tuple<Server, List<Device>>)state;
+            var arguments = (Tuple<Server, Device>)state;
             Server server = arguments.Item1;
-            List<Device> devices = arguments.Item2;
+            Device device = arguments.Item2;
 
 
 
             SendMeasureToServerDTO sendMeasureToServerDTO = new SendMeasureToServerDTO();
 
-            foreach (Device device in devices)
-            {
+            
                 sendMeasureToServerDTO.SlanjeMerenja(server, device);
                 device.Measurements.Clear();
-            }
+            
 
 
         }

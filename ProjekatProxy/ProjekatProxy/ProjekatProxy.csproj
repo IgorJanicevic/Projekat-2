@@ -51,7 +51,7 @@
     <Compile Include="IProxy.cs" />
     <Compile Include="Device\CreateMeasure.cs" />
     <Compile Include="Konekcije\SendMeasureToServerDTO.cs" />
-    <Compile Include="Device\SendMeasureToServerOn5Minutes.cs" />
+    <Compile Include="Konekcije\SendMeasureToServerOn5Minutes.cs" />
     <Compile Include="Server\IServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

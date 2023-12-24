@@ -14,30 +14,56 @@ namespace ProjekatProxy
         static void Main(string[] args)
         {
             
-            // Kreiranje instanci Servera, Proxy-ja i Klijenta
+          //Kreiranje instanci Servera, Proxy-ja i Klijenta
             Server server = new Server();
             Proxy proxy = new Proxy(server, TimeSpan.FromHours(24)); // Postavljamo vreme isteka lokalnih kopija na 24 sata
             Client client = new Client();
-            //SendMeasureToServerDTO sendMeasureToServerDTO = new SendMeasureToServerDTO();
 
-            // Kreiranje instanci uređaja
-            Device device1 = new Device(1);
-            Device device2 = new Device(2);
-
+          //Lista uredjaja
             List<Device> devices = new List<Device>();
-            devices.Add(device1);
-            devices.Add(device2);
+            
+          //string za izbor u hendleru
+            string temp1;
+
+          //Kreiranje merenja svaki minut, za svaki uredjaj
+            CreateMeasure cm = new CreateMeasure();          
+
+          //Slanje svih merenja sa svih uredjaja koji se ne nalaze na serveru
+            SendMeasureToServerOn5Minutes sm = new SendMeasureToServerOn5Minutes();
 
 
+
+            do
+            {
+
+                Console.WriteLine("Izaberi opciju: ");
+                Console.WriteLine("1 - Kreiraj novi device");
+                Console.WriteLine("2 - Klijentski pod..");
+                Console.WriteLine("X - Izlaz");
+
+                temp1 = Console.ReadLine();
+
+                switch(temp1)
+                {
+                    case "1":
+                        AddDeviceToList(devices,server,cm,sm);
+                        break;
+                    
+                }
+             
+
+            } while (!temp1.ToUpper().Equals("X"));
+
+            
+
+            /*
             //Kreiranje merenja svaki minut, za svaki uredjaj
             CreateMeasure cm = new CreateMeasure();
             cm.Create(devices);
 
-
-
             //Slanje svih merenja sa svih uredjaja koji se ne nalaze na serveru
             SendMeasureToServerOn5Minutes sm= new SendMeasureToServerOn5Minutes();
-            sm.SendMeasure(server, devices);
+            sm.SendMeasure(server, devices);*/
            
             
 
@@ -71,18 +97,52 @@ namespace ProjekatProxy
 
             Console.WriteLine("Aplikacija radi. Pritisnite Enter da završite.");
             Console.ReadLine();
-
-            sm.Dispose();
+  
             cm.Dispose();
+            sm.Dispose();
+
+            
+
+            
         }
 
+        
 
-        private static void AddDeviceToList(List<Device> d)
+        private static bool AddDeviceToList(List<Device> d,Server server,CreateMeasure cm,SendMeasureToServerOn5Minutes sm)
         {
-            Console.WriteLine("Unesi ID: ");
-            int devID= int.Parse(Console.ReadLine());
+            try
+            {
+                Console.WriteLine("Unesi ID: ");
+                int devID = int.Parse(Console.ReadLine());
+                Device tempDev = new Device(devID);
+               
+                foreach(Device dev in d)
+                {
+                    if (dev.UniqueID == devID)
+                    {
+                        Console.WriteLine("Vec postoji uredjaj sa tom ID oznakom");
+                        return false;
+                    }
+                }
+                
+                d.Add(tempDev);
 
-            d.Add(new Device(devID));
+
+                //Kreiranje merenja svaki minut, za svaki uredjaj
+                cm.Create(tempDev);
+
+                //Slanje svih merenja sa svih uredjaja koji se ne nalaze na serveru
+                sm.SendMeasure(server, tempDev);
+
+            }catch(FormatException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }catch(Exception ex){
+                Console.WriteLine(ex.Message);
+            }
+
+            return true;
+
         }
     }
 }
