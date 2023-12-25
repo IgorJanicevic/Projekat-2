@@ -18,7 +18,7 @@ namespace ProjekatProxy
 
             // Čekaj na konekciju od proxy-ja
             tcpClient = tcpListener.AcceptTcpClient();
-            Console.WriteLine("Proxy connected to server");            
+            Console.WriteLine("Client connected to server");            
 
             return tcpClient;
 
@@ -33,8 +33,7 @@ namespace ProjekatProxy
 
 
             bytesRead = networkStream.Read(buffer, 0, buffer.Length);
-            if (bytesRead > 0)
-            {
+            if (bytesRead > 0) {
                 string message = Encoding.ASCII.GetString(buffer, 0, bytesRead);
                 Console.WriteLine("Received message from proxy: " + message);
                 return message;

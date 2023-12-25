@@ -41,8 +41,11 @@ namespace ProjekatProxy
         //Metoda za prijema zahteva od proxy
         public string AcceptMessageFromProxy()
         {
-            string option= slp.StartReading(tcpClient);
+            //Console.WriteLine("OKER P");
+            string option = slp.StartReading(tcpClient);
+            //Console.WriteLine("GGGGGGGGG");
             return option;
+                       
         }
 
 

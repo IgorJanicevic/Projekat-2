@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace ProjekatProxy
 {
-    internal class Proxy : IProxy
+    public class Proxy : IProxy
     {
         private readonly Dictionary<int, List<double>> localDataStore; // Lokalno čuvanje podataka
         private readonly Server server; // Reference na server
         private readonly TimeSpan dataExpirationTime; // Vreme nakon kojeg će lokalna kopija podataka biti obrisana
-        private readonly string MessageFromClient;
+        //private readonly string MessageFromClient; // Videcemo da li je potrebno
         
         // Za konekciju sa Serverom
         private TcpClient tcpClient;
@@ -22,8 +22,8 @@ namespace ProjekatProxy
 
         private ServerListenClient slc= new ServerListenClient();
         private TcpListener ListenerForClients;
-        private List<TcpClient> tcpClients= new List<TcpClient>();
-        private TcpClient tcpTemp;
+        private Dictionary<string,TcpClient> tcpClients= new Dictionary<string, TcpClient>();
+        public TcpClient tcpTemp;
 
 
         public Proxy(Server s, TimeSpan dataExpirationTime)
@@ -31,23 +31,19 @@ namespace ProjekatProxy
             localDataStore = new Dictionary<int, List<double>>();
             this.server = s;
             this.dataExpirationTime = dataExpirationTime;
-            MessageFromClient = "Succes..";
 
             
             try
             {
                 //Konekcija sa Serverom na pocetku
                 tcpClient = new TcpClient("127.0.0.1", 8080);
-                tcpClients.Add(tcpClient);
+               
                
             }catch(Exception ex) {
                 Console.WriteLine(ex.Message + "PROXY");
             }
-            Console.WriteLine("Connected to server");
-
-            // Ovde možete implementirati logiku za slanje poruka serveru
-
-            SendMessage(MessageFromClient);
+            Console.WriteLine("Proxy connected to server");           
+          
 
             // Slusanje klijenata
             ListenerForClients = new TcpListener(IPAddress.Any, 5000);
@@ -55,18 +51,27 @@ namespace ProjekatProxy
             Console.WriteLine("Proxy listening on port " + 5000);
         }
 
-        public void ProxyAcceptClient()
+        public void ProxyAcceptClient(string name)
         {
             // Čekaj na konekciju od proxy-ja
             tcpTemp = slc.AcceptClient(ListenerForClients);
-            tcpClients.Add(tcpTemp);
+            tcpClients.Add(name,tcpTemp);
         }
 
-        //Za prihvatanje poruke od klijenta
-        public string AcceptClientMessage()
+        //Za prihvatanje poruke od klijenta i salje
+        public string AcceptClientMessage(string name)
         {
-           string option= slc.StartReading(tcpTemp);
-           return option;
+            string option=null;
+            if(tcpClients.ContainsKey(name))
+            {
+                tcpTemp= tcpClients[name];
+            }
+            option = slc.StartReading(tcpTemp);
+                     
+            this.SendMessage1(option);
+             
+            return option;
+               
         }
 
         // Metoda za obradu zahteva klijenta
@@ -115,16 +120,15 @@ namespace ProjekatProxy
         {
             Console.WriteLine($"[Proxy] {DateTime.Now}: {message}");
         }
-
-        // Meotda za za slanje poruke
-        private void SendMessage(string message)
+      
+        private void SendMessage1(string message)
         {
             try
-            {
+            {               
                 NetworkStream networkStream = tcpClient.GetStream();
                 byte[] buffer = Encoding.ASCII.GetBytes(message);
                 networkStream.Write(buffer, 0, buffer.Length);
-                //Console.WriteLine("Sent message to server: " + message);
+                Console.WriteLine("Sent message to server: " + message);
             }catch (Exception e)
             {
                 Console.WriteLine(e.Message +"PROXY MESSAGE");

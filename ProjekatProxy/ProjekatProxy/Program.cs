@@ -5,12 +5,13 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+//using System.Timers;
 
 namespace ProjekatProxy
 {
     internal class Program
     {
-
+       
         static void Main(string[] args)
         {
             
@@ -18,12 +19,7 @@ namespace ProjekatProxy
             Server server = new Server(8080);
             Proxy proxy = new Proxy(server, TimeSpan.FromHours(24)); // Postavljamo vreme isteka lokalnih kopija na 24 sata
             server.AcceptProxy();
-            server.AcceptMessageFromProxy();
-
-
-            Client client = new Client();
-            proxy.ProxyAcceptClient();          
-            proxy.AcceptClientMessage();
+            
 
             Console.WriteLine();
             Console.WriteLine();
@@ -46,10 +42,10 @@ namespace ProjekatProxy
             do
             {
 
-                Console.WriteLine("Izaberi opciju: ");
+                Console.WriteLine("\nIzaberi opciju: ");
                 Console.WriteLine("1 - Kreiraj novi device");
-                Console.WriteLine("2 - Klijentski pod..");
-                Console.WriteLine("X - Izlaz");
+                Console.WriteLine("2 - Klijentski meni");
+                Console.WriteLine("X - Izlaz\n");
 
                 temp1 = Console.ReadLine();
 
@@ -57,6 +53,9 @@ namespace ProjekatProxy
                 {
                     case "1":
                         AddDeviceToList(devices,server,cm,sm);
+                        break;
+                    case "2":
+                        ClientMenu(proxy,server);
                         break;
                     
                 }
@@ -109,15 +108,22 @@ namespace ProjekatProxy
             Console.ReadLine();
   
             cm.Dispose();
-            sm.Dispose();
+            sm.Dispose();           
 
             
 
             
         }
+  
+     
 
-        
+        private static void ClientMenu(Proxy pp, Server server)
+        {
+            ClientHandler ch= new ClientHandler();
+            ch.Handler(pp, server);
+        }
 
+        //Dodavanje uredjaja u listu kao i kreiranje njegovih merenja i slanje na serveru
         private static bool AddDeviceToList(List<Device> d,Server server,CreateMeasure cm,SendMeasureToServerOn5Minutes sm)
         {
             try

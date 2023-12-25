@@ -9,12 +9,14 @@ namespace ProjekatProxy
 {
     public class Client : IClient
     {
+        public readonly string Name;
         private readonly List<double> receivedData; // Lista za čuvanje primljenih podataka
-        private TcpClient tcpClient;
+        private TcpClient tcpClient; // Za konekciju sa Proxy-jem
 
 
-        public Client()
+        public Client(string name)
         {
+            Name = name;
             receivedData = new List<double>();
 
             try
@@ -25,19 +27,26 @@ namespace ProjekatProxy
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message + "Clin");
+                Console.WriteLine(ex.Message + "Client not connected on proxy");
             }
             Console.WriteLine("Connected to Proxy");
 
             // Ovde možete implementirati logiku za slanje poruka serveru
 
-            SendMessage("Client connected to Proxy");
+            
         }
 
-        private void SendMessage(string message)
+        public void SendMessage()
+        {
+            this.SendMessage1();
+        }
+
+        private void SendMessage1()
         {
             try
             {
+                Console.WriteLine("Unesi poruku koju zelis da posaljes proxy: ");
+                string message = Console.ReadLine();
                 NetworkStream networkStream = tcpClient.GetStream();
                 byte[] buffer = Encoding.ASCII.GetBytes(message);
                 networkStream.Write(buffer, 0, buffer.Length);
