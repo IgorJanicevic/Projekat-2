@@ -12,6 +12,7 @@ namespace ProjekatProxy
     {
         private TcpClient tcpClient;
 
+
         //Metoda za prihvatanje zahteva od strane proxy
         public TcpClient AcceptClient(TcpListener tcpListener)
         {
@@ -43,6 +44,22 @@ namespace ProjekatProxy
 
             return null;
 
+        }
+
+        //Metoda za slanje poruke
+        public void SendMessage(string message,TcpClient client)
+        {
+            try
+            {
+                NetworkStream networkStream = client.GetStream();
+                byte[] buffer = Encoding.ASCII.GetBytes(message);
+                networkStream.Write(buffer, 0, buffer.Length);
+                Console.WriteLine("Sent message to server: " + message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + "PROXY MESSAGE");
+            }
         }
     }
 }

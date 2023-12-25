@@ -10,8 +10,7 @@ namespace ProjekatProxy
 {
     public class Proxy : IProxy
     {
-        private readonly Dictionary<int, List<double>> localDataStore; // Lokalno čuvanje podataka
-        private readonly Server server; // Reference na server
+        private readonly Dictionary<int, List<Measurement>> localDataStore; // Lokalno čuvanje podataka
         private readonly TimeSpan dataExpirationTime; // Vreme nakon kojeg će lokalna kopija podataka biti obrisana
         //private readonly string MessageFromClient; // Videcemo da li je potrebno
         
@@ -28,8 +27,7 @@ namespace ProjekatProxy
 
         public Proxy(Server s, TimeSpan dataExpirationTime)
         {
-            localDataStore = new Dictionary<int, List<double>>();
-            this.server = s;
+            localDataStore = new Dictionary<int, List<Measurement>>();
             this.dataExpirationTime = dataExpirationTime;
 
             
@@ -51,6 +49,7 @@ namespace ProjekatProxy
             Console.WriteLine("Proxy listening on port " + 5000);
         }
 
+        //Metoda za prihvatanje klijenata
         public void ProxyAcceptClient(string name)
         {
             // Čekaj na konekciju od proxy-ja
@@ -59,16 +58,24 @@ namespace ProjekatProxy
         }
 
         //Za prihvatanje poruke od klijenta i salje
-        public string AcceptClientMessage(string name)
+        public string AcceptClientMessage(string name,int br)
         {
+            //Blok koji prihvata poruku
             string option=null;
             if(tcpClients.ContainsKey(name))
             {
                 tcpTemp= tcpClients[name];
             }
             option = slc.StartReading(tcpTemp);
-                     
-            this.SendMessage1(option);
+
+            //Blok koji proverava lokalne podatke
+            int trazeni = int.Parse(option);          
+       
+            
+
+          //Blok koji salje nazad poruku
+            slc.SendMessage(option, tcpClient);
+            //this.SendMessage(option);
              
             return option;
                
@@ -101,7 +108,7 @@ namespace ProjekatProxy
         }
 
         // Privatna metoda za ažuriranje lokalne kopije podataka
-        private void UpdateLocalCopy(int deviceID, List<double> serverData)
+        private void UpdateLocalCopy(int deviceID, List<Measurement> serverData)
         {
             if (localDataStore.ContainsKey(deviceID))
             {
@@ -121,7 +128,7 @@ namespace ProjekatProxy
             Console.WriteLine($"[Proxy] {DateTime.Now}: {message}");
         }
       
-        private void SendMessage1(string message)
+       /* private void SendMessage(string message)
         {
             try
             {               
@@ -133,7 +140,7 @@ namespace ProjekatProxy
             {
                 Console.WriteLine(e.Message +"PROXY MESSAGE");
             }
-        }
+        }*/ //BRISEMO NA KRAJu
 
     }
 }

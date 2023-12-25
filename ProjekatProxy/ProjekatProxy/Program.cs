@@ -106,6 +106,7 @@ namespace ProjekatProxy
 
             Console.WriteLine("Aplikacija radi. Pritisnite Enter da završite.");
             Console.ReadLine();
+
   
             cm.Dispose();
             sm.Dispose();           

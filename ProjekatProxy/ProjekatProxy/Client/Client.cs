@@ -36,26 +36,18 @@ namespace ProjekatProxy
             
         }
 
+        //Metoda za slanje poruke proxy-ju
         public void SendMessage()
         {
-            this.SendMessage1();
-        }
 
-        private void SendMessage1()
-        {
-            try
-            {
                 Console.WriteLine("Unesi poruku koju zelis da posaljes proxy: ");
                 string message = Console.ReadLine();
+                int temp= int.Parse(message);
                 NetworkStream networkStream = tcpClient.GetStream();
                 byte[] buffer = Encoding.ASCII.GetBytes(message);
                 networkStream.Write(buffer, 0, buffer.Length);
                 Console.WriteLine("Sent message to server: " + message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message + "PROXY MESSAGE");
-            }
+         
         }
 
 

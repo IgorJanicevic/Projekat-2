@@ -8,10 +8,10 @@ namespace ProjekatProxy
 {
     public class ClientHandler
     {
-        private List<Client> clients = new List<Client>();
-        private Client currentClient=null;
-        private Proxy proxy=null;
-        private Server server=null;
+        private List<Client> clients = new List<Client>(); //Lista klijenata
+        private Client currentClient=null; // Trenutni klijent sa kojim mozete vrsiti operacije
+        private Proxy proxy=null; // Referenca na proxy
+        private Server server=null; // Referenca na server
 
         public void Handler(Proxy pp,Server ss)
         {
@@ -64,25 +64,29 @@ namespace ProjekatProxy
                 switch (tmp)
                 {
                     case "1":                     
-                        SlanjeZahteva(current, proxy, server);                                      
+                        SlanjeZahteva(current, proxy, server,1);                                      
                         break;
                     case "2":
-                        SlanjeZahteva(current, proxy, server);
+                        SlanjeZahteva(current, proxy, server,2);
                         break;
                 }
 
             } while(!tmp.ToUpper().Equals("X"));
         }
 
-        private static void SlanjeZahteva(Client current,Proxy proxy,Server server)
+        private static void SlanjeZahteva(Client current,Proxy proxy,Server server,int br)
         {
             try
             {             
                 current.SendMessage();
-                proxy.AcceptClientMessage(current.Name);
-                server.AcceptMessageFromProxy();
+                proxy.AcceptClientMessage(current.Name,br);
+                server.AcceptMessageFromProxy(br);
 
-            }catch(Exception e)
+            }catch(FormatException)
+            {
+                Console.WriteLine("ID koji ste uneli nije validan, molimo vas unesite broj");
+            }
+            catch(Exception e)
             {
                 Console.WriteLine(e.Message+"Slanje zahteva");
             }

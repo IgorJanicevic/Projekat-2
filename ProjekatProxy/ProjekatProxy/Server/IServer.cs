@@ -9,7 +9,7 @@ namespace ProjekatProxy
     public interface IServer
     {
         void WriteData(Measurement measurement);
-        string AcceptMessageFromProxy();
+        string AcceptMessageFromProxy(int br);
         void AcceptProxy();
         void LogEvent(string message);
     }
