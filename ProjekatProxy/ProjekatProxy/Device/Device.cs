@@ -6,51 +6,74 @@ using System.Threading.Tasks;
 
 namespace ProjekatProxy
 {
-    internal class Device
-    {  
-    
-                // Atributi klase
+    public class Device : IDevice
+    {
         public int UniqueID { get; private set; }
-        public bool IsAnalog { get; private set; }
-        public double MeasurementValue { get; private set; }
-        public DateTime Timestamp { get; private set; }
+        public List<Measurement> Measurements { get; private set; }
 
-        // Konstruktor klase sa dodatnim parametrom za vreme
-        public Device(int uniqueID, bool isAnalog, DateTime initialTime)
+        private Random random = new Random();
+        private readonly SendMeasureToServerOn5Minutes smts= new SendMeasureToServerOn5Minutes();
+
+        public Device(int id)
         {
-            UniqueID = uniqueID;
-            IsAnalog = isAnalog;
-            SetInitialTime(initialTime);
+            UniqueID = id;
+            Measurements = new List<Measurement>();
         }
 
-        // Metoda za postavljanje inicijalnog vremena
-        private void SetInitialTime(DateTime initialTime)
+        public void RecordMeasurement(Random r)
         {
-            Timestamp = initialTime;
-        }
+            try
+            {
+                
+                double vv = r.NextDouble() * 100;
+                double value= Math.Round(vv,2);
+                bool isAnalog = r.Next(2) == 0;
+                int UniqueID = r.Next(1, 100);
+                //Measurement measurement = new Measurement(UniqueID, isAnalog, value);
 
-        // Metoda za upis podataka o merenjima
-        public void RecordMeasurement(double value)
-        {
-            MeasurementValue = value;
-            Timestamp = DateTime.Now;
+                int tmp = 0;
+                foreach (Measurement m in Measurements)
+                {
+                    if (m.DeviceID == UniqueID)
+                    {
+                        tmp = 1;
+                        m.UpdateValues(value, isAnalog);
+                        break;
+                    }
+                }
+                if (tmp==0)
+                {
+                    Measurement measurement = new Measurement(UniqueID, isAnalog, value);
+                    Measurements.Add(measurement);
+                }
+                tmp = 0;
+                
+
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("GRESKA PRI MERENJU");
+            }
 
             // Pozovi metodu za slanje merenja
-            SendMeasurement();
+            //SendMeasurementToServer(measurement);
         }
 
-        // Privatna metoda za slanje merenja
-        private void SendMeasurement()
-        {
-            // Logika za slanje merenja na server
-            Console.WriteLine($"Device {UniqueID}: Measurement sent to server. Value: {MeasurementValue}, Timestamp: {Timestamp}");
-        }
 
-        // Metoda za proveru tipa merenja
+        
+        
         public string GetMeasurementType()
         {
-            return IsAnalog ? "Analog" : "Digital";
+            // Povrati tip merenja poslednjeg merenja
+            if (Measurements.Count > 0)
+            {
+                return Measurements[Measurements.Count - 1].IsAnalog ? "Analog" : "Digital";
+
+            }
+            return "Unknown";
         }
+
+
 
 
     }
