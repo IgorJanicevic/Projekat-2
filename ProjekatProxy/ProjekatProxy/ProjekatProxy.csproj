@@ -49,7 +49,7 @@
     <Compile Include="Device\Device.cs" />
     <Compile Include="Device\IDevice.cs" />
     <Compile Include="Device\Measurement.cs" />
-    <Compile Include="OrdersForServer.cs" />
+    <Compile Include="Server\OrdersForServer.cs" />
     <Compile Include="Proxy\IProxy.cs" />
     <Compile Include="Device\CreateMeasure.cs" />
     <Compile Include="Konekcije\SendMeasureToServerDTO.cs" />

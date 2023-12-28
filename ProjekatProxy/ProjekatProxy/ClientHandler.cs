@@ -57,6 +57,8 @@ namespace ProjekatProxy
                 Console.WriteLine("\n1 - Svi podaci odabranog ID-ja");
                 Console.WriteLine("2 - Poslednje azuriranje vrednosti odabranog ID-ja");
                 Console.WriteLine("3 - Poslednje azuriranje vrednosti svakog ID-ja");
+                Console.WriteLine("4 - Sva analogna merenja");
+                Console.WriteLine("5 - Sva digitalna merenja");
                 Console.WriteLine("X - Izlaz\n");
 
                 tmp = Console.ReadLine();
@@ -68,6 +70,15 @@ namespace ProjekatProxy
                         break;
                     case "2":
                         SlanjeZahteva(current, proxy, server,2);
+                        break;
+                    case "3":
+                        SlanjeZahteva(current, proxy, server, 3);
+                        break;
+                    case "4":
+                        SlanjeZahteva(current,proxy, server,4);
+                        break;
+                    case "5":
+                        SlanjeZahteva(current, proxy, server, 5);
                         break;
                 }
 

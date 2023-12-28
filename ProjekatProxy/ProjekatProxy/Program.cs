@@ -63,7 +63,7 @@ namespace ProjekatProxy
 
             } while (!temp1.ToUpper().Equals("X"));
 
-            
+
 
             /*
             //Kreiranje merenja svaki minut, za svaki uredjaj
@@ -73,8 +73,8 @@ namespace ProjekatProxy
             //Slanje svih merenja sa svih uredjaja koji se ne nalaze na serveru
             SendMeasureToServerOn5Minutes sm= new SendMeasureToServerOn5Minutes();
             sm.SendMeasure(server, devices);*/
-           
-            
+
+
 
             /*
             // Simulacija zahteva klijenta preko proxy-ja

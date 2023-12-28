@@ -16,7 +16,7 @@ namespace ProjekatProxy
         {
             try
             {
-                timer = new Timer(CreateNewMeasure, new Tuple<Device>(dev), 0, 1 * 60 * 300);
+                timer = new Timer(CreateNewMeasure, new Tuple<Device>(dev), 0, 1 * 60 * 100);
             }catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
@@ -39,7 +39,7 @@ namespace ProjekatProxy
             Random random = new Random();
            
                 //dev.Measurements.Clear();
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     dev.RecordMeasurement(random);
                 }

@@ -78,24 +78,81 @@ namespace ProjekatProxy
             
         }
 
-        private void LastUpdatedValueID(int devID)
+        private Measurement LastUpdatedValueID(int devID)
         {
-            throw new NotImplementedException();
+            List<Measurement> measurements = orders.AllDataFromID(devID);
+            Measurement first = measurements[0];
+
+            for (int i = 1; i < measurements.Count; i++)
+            {
+                if (first.Timestamp.CompareTo(measurements[i].Timestamp) < 0)
+                {
+                    first = measurements[i];
+                }
+            }
+
+            Console.WriteLine(first);
+            return first;
         }
 
-        private void LastUpdatedValueAllID()
+        //Metoda koja kupuje sve poslednje azuriranje vrednosti svakog ID-ja
+        public void LastUpdatedValueAllID()
         {
-            throw new NotImplementedException();
+            //Lista svih id u bazi podataka
+            List<int> devIDs= orders.GetAllDeviceID();
+        
+            List<Measurement> measurements= new List<Measurement>(); 
+
+            Dictionary<int,Measurement> data = new Dictionary<int,Measurement>();
+
+            //Prolazimo kroz svaki device i uzimamo njegovu poslednju azuriranu vrednost
+            foreach (int id in devIDs)
+            {
+                Measurement m = this.LastUpdatedValueID(id);
+                measurements.Add(m); 
+                data.Add(id, m); //dodajemo je u recnik zajedno sa idijem uredja
+            }
+            
+                foreach (var item in data)
+                    Console.WriteLine("ID " + item.Key + ":\t" + item.Value);
+            
         }
 
+        //Sva analogna merenja
         private void AllAnalogData()
         {
-            throw new NotImplementedException();
+            //Svi uredjaji
+            List<int> devIDs = orders.GetAllDeviceID();
+            List<Measurement> analogAll= new List<Measurement>();
+            foreach(int id in devIDs)
+            {
+                //Sva merenja odredjenog uredjaja
+                List<Measurement> temp= orders.AllDataFromID(id);
+                foreach(Measurement m in temp)
+                {
+                    if(m.IsAnalog== true) analogAll.Add(m); //Ovde dodajemo ako je analogno merenje
+                }
+            }
+            foreach(var item in analogAll)
+                Console.WriteLine(item);
         }
 
+        //Metoda za sva digitalna merenja
         private void AllDigitalData()
         {
-            throw new NotImplementedException();
+            List<int> devIDs = orders.GetAllDeviceID();
+            List<Measurement> digitalAll = new List<Measurement>();
+            foreach (int id in devIDs)
+            {
+                //Sva merenja odredjenog uredjaja
+                List<Measurement> temp = orders.AllDataFromID(id);
+                foreach (Measurement m in temp)
+                {                 
+                    if (m.IsAnalog==false) digitalAll.Add(m); //Ovde dodajemo ako je analogno merenje
+                }
+            }         
+            foreach (var item in digitalAll)
+                Console.WriteLine(item);
         }
 
 

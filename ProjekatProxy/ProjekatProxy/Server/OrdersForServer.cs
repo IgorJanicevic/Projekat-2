@@ -43,14 +43,77 @@ namespace ProjekatProxy
             else
             {
                 Console.WriteLine("Fajl ne postoji.");
-            }          
+            }
+            foreach(Measurement m in data)
+                Console.WriteLine(m);
+
             return data;
         }
 
 
+        public List<int> GetAllDeviceID()
+        {
+            List<int> deviceID = new List<int>();
+            try
+            {
+                using (StreamReader sr = new StreamReader(filePath))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        // Proveri da li linija sadrži "Device ID:".
+                        if (line.Contains("Device ID:"))
+                        {
+                            // Izvuci Device ID vrednost iz linije.
+                            int id = ExtractDeviceID(line);
+
+                            foreach (int postojeci in deviceID)
+                            {
+                                if (id == postojeci)
+                                {
+                                    id = -1;
+                                    break;
+                                }
+                            }
+
+                            // Ako je izvučeno, dodaj u listu.
+                            if (id != -1)
+                            {
+                                deviceID.Add(id);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Greška prilikom čitanja fajla: {ex.Message}");
+            }
+           
+            // Pretvori listu u niz.
+            return deviceID;
+        }
+       
 
 
-
+        //Izvlacenje ID-ja iz DEVICE ID: .. iz .txt
+        private static int ExtractDeviceID(string line)
+        {
+            
+            try
+            {
+                // Parsiraj u celobrojnu vrednost.
+                string ff = line.Substring(11);
+                int br = int.Parse(ff);
+                return br;
+            }
+            catch
+            {
+                // Ako dođe do greške, vrati -1.
+                Console.WriteLine("Greska prilikom prikuljanja ID-ja za ispis poslednji azuriranih vrednosti");
+                return -1;
+            }
+        }
 
 
 
