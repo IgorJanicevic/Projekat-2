@@ -108,8 +108,8 @@ namespace ProjekatProxy
             Console.ReadLine();
 
   
-            cm.Dispose();
-            sm.Dispose();           
+           // cm.Dispose();
+           // sm.Dispose();           
 
             
 
