@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Console;
@@ -40,47 +41,73 @@ namespace ProjekatProxy
             tcpClient= slp.AcceptClient(tcpListener);                      
         }
 
+     
         //Metoda za prijema zahteva od proxy
         public string AcceptMessageFromProxy(int brOperacije)
         {            
             string option = slp.StartReading(tcpClient);
             int devID= int.Parse(option);
-
+            Measurement tempForOne = null;
+            
 
             switch (brOperacije)
             {
                 case 1:
-                    AllDataFromID(devID); // Svi podaci odadbranog ID-ja
+                   dataStore= AllDataFromID(devID); // Svi podaci odadbranog ID-ja
                     break;
                 case 2:
-                    LastUpdatedValueID(devID); // Poslednja azurirana vrednost odredjenog ID-ja
+                    tempForOne= LastUpdatedValueID(devID); // Poslednja azurirana vrednost odredjenog ID-ja  
+                    dataStore.Add(tempForOne);
                     break;
                 case 3:
-                    LastUpdatedValueAllID(); // Poslednje azurirane vrednosti svih uredjaja
+                    dataStore= LastUpdatedValueAllID(); // Poslednje azurirane vrednosti svih uredjaja
                     break;
                 case 4:
-                    AllAnalogData(); // Sva analogna merenja
+                    dataStore= AllAnalogData(); // Sva analogna merenja
                     break;
                 case 5:
-                    AllDigitalData(); // Sva digitalna merenja
+                    dataStore= AllDigitalData(); // Sva digitalna merenja
                     break;
 
             }
+            //Provera da li smo vratili nesto
+            if (dataStore == null)
+            {
+                Console.WriteLine("Ne postoji nijedan uredjaj");
+                return null;
+            }
+            //Provera za slanje
+            SandList(dataStore);
+           
+            dataStore.Clear();
 
             return option;            
         }
 
-
-        private void AllDataFromID(int devID)
+        //Metoda za slanje Liste merenja Proxy-ju
+        private void SandList(List<Measurement> lista)
         {
-            List<Measurement> data=orders.AllDataFromID(devID);
-            
-            
+            slp.SandList(lista, tcpClient);
         }
 
+        //Metoda za dobijanje svih podataka odredjenog uredjaja
+        private List<Measurement> AllDataFromID(int devID)
+        {
+            List<Measurement> data = orders.AllDataFromID(devID);     
+
+            return data;            
+        }
+
+        //Metoda za dobijanje posledje azuriranje vrednosti odredjenog id-ja
         private Measurement LastUpdatedValueID(int devID)
         {
             List<Measurement> measurements = orders.AllDataFromID(devID);
+            //Provera da li postoji
+            if (measurements.Count == 0) {
+                Console.WriteLine("\nUneli ste uredjaj sa nepostojecim ID-jem");
+                return null;
+            }
+
             Measurement first = measurements[0];
 
             for (int i = 1; i < measurements.Count; i++)
@@ -90,17 +117,19 @@ namespace ProjekatProxy
                     first = measurements[i];
                 }
             }
-
-            Console.WriteLine(first);
+            //Dodavanje jednog
+            
             return first;
         }
 
         //Metoda koja kupuje sve poslednje azuriranje vrednosti svakog ID-ja
-        public void LastUpdatedValueAllID()
+        public List<Measurement> LastUpdatedValueAllID()
         {
             //Lista svih id u bazi podataka
             List<int> devIDs= orders.GetAllDeviceID();
-        
+            if (devIDs == null)
+                return null;
+
             List<Measurement> measurements= new List<Measurement>(); 
 
             Dictionary<int,Measurement> data = new Dictionary<int,Measurement>();
@@ -112,17 +141,24 @@ namespace ProjekatProxy
                 measurements.Add(m); 
                 data.Add(id, m); //dodajemo je u recnik zajedno sa idijem uredja
             }
-            
-                foreach (var item in data)
-                    Console.WriteLine("ID " + item.Key + ":\t" + item.Value);
+
+            //Provera
+            if (measurements.Count == 0) {
+                Console.WriteLine("Trenutno ne postoji nijedan uredjaj");
+                return null;
+            }
+            return measurements;
             
         }
 
         //Sva analogna merenja
-        private void AllAnalogData()
+        private List<Measurement> AllAnalogData()
         {
             //Svi uredjaji
             List<int> devIDs = orders.GetAllDeviceID();
+            //Provera da li postoje uredjaji
+            if (devIDs == null)
+                return null;
             List<Measurement> analogAll= new List<Measurement>();
             foreach(int id in devIDs)
             {
@@ -133,14 +169,25 @@ namespace ProjekatProxy
                     if(m.IsAnalog== true) analogAll.Add(m); //Ovde dodajemo ako je analogno merenje
                 }
             }
-            foreach(var item in analogAll)
-                Console.WriteLine(item);
+            //Provera
+            if (analogAll.Count == 0)
+            {
+                Console.WriteLine("Trenutno ne postoji nijedan uredjaj");
+                return null;
+            }
+
+            return analogAll;
+
         }
 
         //Metoda za sva digitalna merenja
-        private void AllDigitalData()
+        private List<Measurement> AllDigitalData()
         {
             List<int> devIDs = orders.GetAllDeviceID();
+            //Provera da li postoje uredjaji
+            if (devIDs == null)
+                return null;
+
             List<Measurement> digitalAll = new List<Measurement>();
             foreach (int id in devIDs)
             {
@@ -150,10 +197,19 @@ namespace ProjekatProxy
                 {                 
                     if (m.IsAnalog==false) digitalAll.Add(m); //Ovde dodajemo ako je analogno merenje
                 }
-            }         
-            foreach (var item in digitalAll)
-                Console.WriteLine(item);
+            }
+
+            //Provera
+            if (digitalAll.Count == 0)
+            {
+                Console.WriteLine("Trenutno ne postoji nijedan uredjaj");
+                return null;
+            }
+
+            return digitalAll;
         }
+
+
 
 
 

@@ -16,7 +16,7 @@ namespace ProjekatProxy
         {
             try
             {
-                timer = new Timer(CreateNewMeasure, new Tuple<Device>(dev), 0, 1 * 60 * 100);
+                timer = new Timer(CreateNewMeasure, new Tuple<Device>(dev), 0, 1 * 60 * 200);
             }catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
@@ -32,14 +32,14 @@ namespace ProjekatProxy
 
         public static void CreateNewMeasure(object state)
         {
-            Console.WriteLine($"Merenje je izv u: {DateTime.Now}");
+            //Console.WriteLine($"Merenje je izv u: {DateTime.Now}");
 
             var arguments = (Tuple<Device>)state;
             Device dev = arguments.Item1;
             Random random = new Random();
            
                 //dev.Measurements.Clear();
-                for (int i = 0; i < 1; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     dev.RecordMeasurement(random);
                 }

@@ -23,8 +23,7 @@ namespace ProjekatProxy
 
         private static void SendMeasureOn5Minutes(object state)
         {
-            // Ovde možete pozvati željenu metodu koja treba da se izvršava svakih 5 minuta
-            Console.WriteLine($"Pozvana je metoda u: {DateTime.Now}");
+            //Console.WriteLine($"Pozvana je metoda u: {DateTime.Now}");
 
 
             var arguments = (Tuple<Server, Device>)state;

@@ -11,7 +11,10 @@ namespace ProjekatProxy
     {
         public readonly string Name;
         private readonly List<double> receivedData; // Lista za čuvanje primljenih podataka
+        private List<Measurement> measurList; // Lista za čuvanje primljenih podataka
         private TcpClient tcpClient; // Za konekciju sa Proxy-jem
+        
+        private ServerListenClient slc= new ServerListenClient();
 
 
         public Client(string name)
@@ -39,15 +42,25 @@ namespace ProjekatProxy
         //Metoda za slanje poruke proxy-ju
         public void SendMessage()
         {
+            slc.SendMessage(tcpClient);        
+        }
 
-                Console.WriteLine("Unesi poruku koju zelis da posaljes proxy: ");
-                string message = Console.ReadLine();
-                int temp= int.Parse(message);
-                NetworkStream networkStream = tcpClient.GetStream();
-                byte[] buffer = Encoding.ASCII.GetBytes(message);
-                networkStream.Write(buffer, 0, buffer.Length);
-                Console.WriteLine("Sent message to server: " + message);
-         
+        //Metoda za slanje vec unapred definisane poruke //ZA IZBOR OPERACIJE..
+        public void SandMessage(string message)
+        {
+                slc.SendMessageToServer(message, tcpClient);
+           
+        }
+
+        //Prihvatanje podataka od strane proxy-ja
+        public void AcceptDataFromProxy()
+        {
+           measurList = new List<Measurement>();
+           measurList= slc.AcceptDataFromServer(tcpClient);
+            foreach(Measurement measurement in measurList)
+            {
+                Console.WriteLine(measurement);
+            }
         }
 
 

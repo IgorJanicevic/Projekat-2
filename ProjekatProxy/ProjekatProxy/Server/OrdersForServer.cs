@@ -44,13 +44,12 @@ namespace ProjekatProxy
             {
                 Console.WriteLine("Fajl ne postoji.");
             }
-            foreach(Measurement m in data)
-                Console.WriteLine(m);
+            
 
             return data;
         }
 
-
+        //Metoda za dobavljanje svih id-jeva
         public List<int> GetAllDeviceID()
         {
             List<int> deviceID = new List<int>();
@@ -89,12 +88,16 @@ namespace ProjekatProxy
             {
                 Console.WriteLine($"Greška prilikom čitanja fajla: {ex.Message}");
             }
+            
+            if(deviceID.Count== 0 )
+            {
+                return null;
+            }
            
             // Pretvori listu u niz.
             return deviceID;
         }
        
-
 
         //Izvlacenje ID-ja iz DEVICE ID: .. iz .txt
         private static int ExtractDeviceID(string line)
@@ -116,10 +119,7 @@ namespace ProjekatProxy
         }
 
 
-
-
-
-        //Metoda za pretvaranje linije u merenje
+        //Metoda za pretvaranje redova u merenja
         private Measurement ParseMeasurement(string line)
         {
             try
@@ -130,7 +130,11 @@ namespace ProjekatProxy
                 // Parsiraj vrednosti.
                 int id = int.Parse(parts[0]);
                 double value = double.Parse(parts[1]);
-                bool isAnalog = bool.Parse(parts[2]);
+                bool isAnalog = false;
+
+                if (parts[2].Equals("Analog"))
+                    isAnalog = true;
+                //bool isAnalog = bool.Parse(parts[2]);
                 DateTime timestamp = DateTime.ParseExact(parts[3], "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
 
                 // Kreiraj Measurement objekat.

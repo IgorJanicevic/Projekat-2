@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,6 +55,13 @@ namespace ProjekatProxy
             string tmp = null;
             do
             {
+                if (current == null)
+                {
+                    Console.WriteLine("Molimo vas kreirajte klijenta pre nego zatrazite podatke");
+                    return;
+                }
+
+
                 Console.WriteLine("\n1 - Svi podaci odabranog ID-ja");
                 Console.WriteLine("2 - Poslednje azuriranje vrednosti odabranog ID-ja");
                 Console.WriteLine("3 - Poslednje azuriranje vrednosti svakog ID-ja");
@@ -62,6 +70,7 @@ namespace ProjekatProxy
                 Console.WriteLine("X - Izlaz\n");
 
                 tmp = Console.ReadLine();
+
 
                 switch (tmp)
                 {
@@ -72,26 +81,54 @@ namespace ProjekatProxy
                         SlanjeZahteva(current, proxy, server,2);
                         break;
                     case "3":
-                        SlanjeZahteva(current, proxy, server, 3);
+                        SlanjeZahtevaBezUnosa(current, proxy, server, 3);
                         break;
                     case "4":
-                        SlanjeZahteva(current,proxy, server,4);
+                        SlanjeZahtevaBezUnosa(current,proxy, server,4);
                         break;
                     case "5":
-                        SlanjeZahteva(current, proxy, server, 5);
+                        SlanjeZahtevaBezUnosa(current, proxy, server, 5);
                         break;
                 }
 
             } while(!tmp.ToUpper().Equals("X"));
         }
 
+        private void SlanjeZahtevaBezUnosa(Client current, Proxy proxy, Server server, int v)
+        {
+            try
+            {
+               
+                current.SandMessage(v.ToString()); // Pomocno slanje poruka kako ne bi morali da unosimo poruku
+                proxy.AcceptClientMessage(current.Name, v);
+                server.AcceptMessageFromProxy(v);
+                proxy.AcceptDataFromServer();
+                proxy.SendDataToClient();
+                current.AcceptDataFromProxy();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
         private static void SlanjeZahteva(Client current,Proxy proxy,Server server,int br)
         {
             try
-            {             
-                current.SendMessage();
-                proxy.AcceptClientMessage(current.Name,br);
-                server.AcceptMessageFromProxy(br);
+            {  
+               
+                current.SendMessage(); //Slanje poruke sa trenutnog klijenta
+                proxy.AcceptClientMessage(current.Name,br); //Prihvatanje poruke od strane proxy + provera + slanje zahteva serveru
+                if(server.AcceptMessageFromProxy(br) == null)//Prihvatanje poruke od strane server
+                {
+                    Console.WriteLine("Trenutno ne postoji nijedan uredjaj\n");
+                    return;
+
+                }                                        
+                proxy.AcceptDataFromServer(); // Proxy prihvata listu merenja sa servera
+                proxy.SendDataToClient();
+                current.AcceptDataFromProxy();
 
             }catch(FormatException)
             {
@@ -104,6 +141,7 @@ namespace ProjekatProxy
 
         }
 
+        //Metoda za biranje klijenta sa kojim zelimo da rukujemo
         private void ChooseClient()
         {
             Console.WriteLine("\n-----------Clients--------------\n");
@@ -112,7 +150,7 @@ namespace ProjekatProxy
                 Console.WriteLine(client.Name);
             }
             Console.WriteLine("\n--------------------------------\n");
-
+            Console.WriteLine("Unesi ime: ");
             string name= Console.ReadLine();
             int br = 0;
             foreach(Client client in clients)
@@ -128,6 +166,7 @@ namespace ProjekatProxy
 
         }
 
+        //Kreiranje novog klijenta
         private void CreateNewClient()
         {
             try
@@ -135,6 +174,12 @@ namespace ProjekatProxy
                 Console.WriteLine("Unesi ime klijenta: ");
                 string ime= Console.ReadLine();
                 Client client = new Client(ime);
+
+                if (ime[0]>48 && ime[0] < 57)
+                {
+                    Console.WriteLine("Ime korisnika ne sme krenuti brojem!");
+                    return;
+                }
 
                 //Ako ne postoji nijedan klijent onda ce trenutni biti prvi koji se doda
                 if(clients.Count() == 0)

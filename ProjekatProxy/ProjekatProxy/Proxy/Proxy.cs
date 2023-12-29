@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,6 +13,7 @@ namespace ProjekatProxy
     public class Proxy : IProxy
     {
         private readonly Dictionary<int, List<Measurement>> localDataStore; // Lokalno čuvanje podataka
+        private List<Measurement> dataFromServer=new List<Measurement>(); //Za cuvanje pomocna lista
         private readonly TimeSpan dataExpirationTime; // Vreme nakon kojeg će lokalna kopija podataka biti obrisana
         //private readonly string MessageFromClient; // Videcemo da li je potrebno
         
@@ -71,15 +74,29 @@ namespace ProjekatProxy
             //Blok koji proverava lokalne podatke
             int trazeni = int.Parse(option);          
        
-            
+
 
           //Blok koji salje nazad poruku
-            slc.SendMessage(option, tcpClient);
-            //this.SendMessage(option);
-             
+            slc.SendMessageToServer(option, tcpClient);
+          //this.SendMessage(option);         
+
             return option;
                
         }
+
+        //Prihvatanje podataka sa servera
+        public void AcceptDataFromServer()
+        {
+           dataFromServer= slc.AcceptDataFromServer(tcpClient);
+        }
+
+        //Metoda za slanje podatak nazad klijetnu
+        public void SendDataToClient()
+        {
+            slc.SandList(dataFromServer,tcpTemp);
+        }
+
+        
 
         // Metoda za obradu zahteva klijenta
         // Potrebno je da se promeni return value
@@ -128,19 +145,7 @@ namespace ProjekatProxy
             Console.WriteLine($"[Proxy] {DateTime.Now}: {message}");
         }
       
-       /* private void SendMessage(string message)
-        {
-            try
-            {               
-                NetworkStream networkStream = tcpClient.GetStream();
-                byte[] buffer = Encoding.ASCII.GetBytes(message);
-                networkStream.Write(buffer, 0, buffer.Length);
-                Console.WriteLine("Sent message to server: " + message);
-            }catch (Exception e)
-            {
-                Console.WriteLine(e.Message +"PROXY MESSAGE");
-            }
-        }*/ //BRISEMO NA KRAJu
+       
 
     }
 }

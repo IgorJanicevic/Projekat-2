@@ -143,10 +143,11 @@ namespace ProjekatProxy
                 }
                 
                 d.Add(tempDev);
-
+                Console.WriteLine("Uspesno ste kreirali uredjaj");
 
                 //Kreiranje merenja svaki minut, za svaki uredjaj
                 cm.Create(tempDev);
+                Thread.Sleep(200); // Da slucajno ne dodje do preplitanja kreiranja merenja i slanja 
 
                 //Slanje svih merenja sa svih uredjaja koji se ne nalaze na serveru
                 sm.SendMeasure(server, tempDev);

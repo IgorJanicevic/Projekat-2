@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjekatProxy
 {
+    [Serializable] //Zbog slanja
     public class Measurement
     {
         public int DeviceID { get; private set; }
@@ -37,7 +38,12 @@ namespace ProjekatProxy
 
         public override string ToString()
         {
-            return String.Format("{0},{1},{2},{3}",DeviceID,Value,IsAnalog,Timestamp);
+            string Analog;
+            if (IsAnalog)
+                Analog = "Analog";
+            else
+                Analog = "Digital";
+            return String.Format("{0},{1},{2},{3}",DeviceID,Value,Analog,Timestamp);
         }
     }
 }
