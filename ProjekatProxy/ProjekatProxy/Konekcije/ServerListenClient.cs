@@ -21,7 +21,7 @@ namespace ProjekatProxy
 
             // Čekaj na konekciju od proxy-ja
             tcpClient = tcpListener.AcceptTcpClient();
-            Console.WriteLine("Client connected to server");            
+            //Console.WriteLine("\nClient connected to server");            
 
             return tcpClient;
 
@@ -56,7 +56,7 @@ namespace ProjekatProxy
                 NetworkStream networkStream = client.GetStream();
                 byte[] buffer = Encoding.ASCII.GetBytes(message);
                 networkStream.Write(buffer, 0, buffer.Length);
-                Console.WriteLine("Sent message to server: " + message);
+                //Console.WriteLine("Sent message to server: " + message);
             }
             catch (Exception e)
             {
@@ -67,20 +67,18 @@ namespace ProjekatProxy
         //Metoda za slanje poruka sa unosom preko konzole
         public void SendMessage(TcpClient tcpClient)
         {
-            try
-            {
-                Console.Write("Unesi poruku koju zelis da posaljes proxy: ");
-                string message = Console.ReadLine();
+            string message="";
+
+            
+                Console.Write("Unesi ID: ");
+                message = Console.ReadLine();
                 int temp = int.Parse(message);
+               
+           
                 NetworkStream networkStream = tcpClient.GetStream();
                 byte[] buffer = Encoding.ASCII.GetBytes(message);
                 networkStream.Write(buffer, 0, buffer.Length);
-                Console.WriteLine("Sent message to server: " + message);
-
-            }catch (Exception ) 
-            {
-                Console.WriteLine("Doslo je do greske, ne postoji nijedan klijent!");
-            }
+                //Console.WriteLine("Sent message to server: " + message);      
 
         }
 
@@ -126,6 +124,7 @@ namespace ProjekatProxy
 
             if(receivedMeasurements.Count== 0) {
                 Console.WriteLine("\nUneli ste uredjaj sa nepostojecim ID-jem!");
+                return null;
             }
 
             return receivedMeasurements;

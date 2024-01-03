@@ -20,6 +20,7 @@ namespace ProjekatProxy
             Measurements = new List<Measurement>();
         }
 
+        //Snimanje merenja
         public void RecordMeasurement(Random r)
         {
             try
@@ -58,10 +59,8 @@ namespace ProjekatProxy
             // Pozovi metodu za slanje merenja
             //SendMeasurementToServer(measurement);
         }
-
-
-        
-        
+              
+        //Samo tip
         public string GetMeasurementType()
         {
             // Povrati tip merenja poslednjeg merenja

@@ -8,6 +8,9 @@ namespace ProjekatProxy
 {
     public interface IProxy
     {
-        //List<double> ProcessClientRequest(int deviceID, DateTime lastAccessTime);
+        void ProxyAcceptClient(string name);
+        string AcceptClientMessage(string name, int br);
+        void AcceptDataFromServer();
+        void SendDataToClient();
     }
 }

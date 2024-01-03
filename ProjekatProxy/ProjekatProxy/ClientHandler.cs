@@ -9,10 +9,15 @@ namespace ProjekatProxy
 {
     public class ClientHandler
     {
-        private List<Client> clients = new List<Client>(); //Lista klijenata
+        private List<Client> clients; //Lista klijenata
         private Client currentClient=null; // Trenutni klijent sa kojim mozete vrsiti operacije
         private Proxy proxy=null; // Referenca na proxy
         private Server server=null; // Referenca na server
+
+        public ClientHandler()
+        {
+            clients = new List<Client>();
+        }
 
         public void Handler(Proxy pp,Server ss)
         {
@@ -99,11 +104,13 @@ namespace ProjekatProxy
             try
             {
                
-                current.SandMessage(v.ToString()); // Pomocno slanje poruka kako ne bi morali da unosimo poruku
-                proxy.AcceptClientMessage(current.Name, v);
-                server.AcceptMessageFromProxy(v);
-                proxy.AcceptDataFromServer();
-                proxy.SendDataToClient();
+                current.SandMessage("0"); // Pomocno slanje poruka kako ne bi morali da unosimo poruku
+                if (proxy.AcceptClientMessage(current.Name, v) != null) //Ako postoji lokalna kopija preskace se ovo
+                {
+                    server.AcceptMessageFromProxy(v);
+                    proxy.AcceptDataFromServer();
+                    proxy.SendDataToClient();
+                }
                 current.AcceptDataFromProxy();
 
             }
@@ -119,15 +126,18 @@ namespace ProjekatProxy
             {  
                
                 current.SendMessage(); //Slanje poruke sa trenutnog klijenta
-                proxy.AcceptClientMessage(current.Name,br); //Prihvatanje poruke od strane proxy + provera + slanje zahteva serveru
-                if(server.AcceptMessageFromProxy(br) == null)//Prihvatanje poruke od strane server
-                {
-                    Console.WriteLine("Trenutno ne postoji nijedan uredjaj\n");
-                    return;
 
-                }                                        
-                proxy.AcceptDataFromServer(); // Proxy prihvata listu merenja sa servera
-                proxy.SendDataToClient();
+                if (proxy.AcceptClientMessage(current.Name, br) != null) //Prihvatanje poruke od strane proxy + provera + slanje zahteva serveru
+                { 
+                    if (server.AcceptMessageFromProxy(br) == null)//Prihvatanje poruke od strane server
+                    {
+                        Console.WriteLine("Trenutno ne postoji nijedan uredjaj\n");
+                        return;
+
+                    }
+                    proxy.AcceptDataFromServer(); // Proxy prihvata listu merenja sa servera
+                    proxy.SendDataToClient();
+                }
                 current.AcceptDataFromProxy();
 
             }catch(FormatException)
@@ -150,7 +160,7 @@ namespace ProjekatProxy
                 Console.WriteLine(client.Name);
             }
             Console.WriteLine("\n--------------------------------\n");
-            Console.WriteLine("Unesi ime: ");
+            Console.Write("Unesi ime: ");
             string name= Console.ReadLine();
             int br = 0;
             foreach(Client client in clients)

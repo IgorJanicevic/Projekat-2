@@ -45,7 +45,6 @@ namespace ProjekatProxy
                 Console.WriteLine("Fajl ne postoji.");
             }
             
-
             return data;
         }
 

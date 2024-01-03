@@ -15,6 +15,7 @@ namespace ProjekatProxy
     public class Server : IServer
     {
         public List<Measurement> dataStore; // Za čuvanje podataka o merenjima
+        private DateTime lastChange; //Poslednja izmena
         private OrdersForServer orders= new OrdersForServer();
 
         private ServerListenClient slp = new ServerListenClient();
@@ -52,11 +53,15 @@ namespace ProjekatProxy
 
             switch (brOperacije)
             {
+                case 0:
+                    slp.SendMessageToServer(lastChange.ToString(),tcpClient);  // Vreme poslednje izmene
+                    return null;
                 case 1:
                    dataStore= AllDataFromID(devID); // Svi podaci odadbranog ID-ja
                     break;
                 case 2:
                     tempForOne= LastUpdatedValueID(devID); // Poslednja azurirana vrednost odredjenog ID-ja  
+                    if(tempForOne!=null)
                     dataStore.Add(tempForOne);
                     break;
                 case 3:
@@ -93,7 +98,10 @@ namespace ProjekatProxy
         //Metoda za dobijanje svih podataka odredjenog uredjaja
         private List<Measurement> AllDataFromID(int devID)
         {
-            List<Measurement> data = orders.AllDataFromID(devID);     
+            Dictionary<int,List<Measurement>> dataRet= new Dictionary<int,List<Measurement>>(); //Proba da se salje recnik
+     
+            List<Measurement> data = orders.AllDataFromID(devID);
+            dataRet.Add(devID, data);
 
             return data;            
         }
@@ -101,9 +109,11 @@ namespace ProjekatProxy
         //Metoda za dobijanje posledje azuriranje vrednosti odredjenog id-ja
         private Measurement LastUpdatedValueID(int devID)
         {
+            Dictionary<int, List<Measurement>> dataRet = new Dictionary<int, List<Measurement>>();
+
             List<Measurement> measurements = orders.AllDataFromID(devID);
             //Provera da li postoji
-            if (measurements.Count == 0) {
+            if (measurements.Count() == 0) {
                 Console.WriteLine("\nUneli ste uredjaj sa nepostojecim ID-jem");
                 return null;
             }
@@ -118,7 +128,10 @@ namespace ProjekatProxy
                 }
             }
             //Dodavanje jednog
-            
+            measurements.Clear();
+            measurements.Add(first);
+            dataRet.Add(devID,measurements);      
+
             return first;
         }
 
@@ -211,23 +224,12 @@ namespace ProjekatProxy
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         // Metoda za upis podataka o merenjima
         public void WriteData(Measurement measurement)
         {
             dataStore.Add(measurement);
             LogEvent($"{measurement}");
+            lastChange = DateTime.Now;
         }              
 
         // Metoda za logovanje događaja
@@ -238,9 +240,10 @@ namespace ProjekatProxy
 
            
                 File.AppendAllText(filePath, message + "\n");
-            
+            lastChange = DateTime.Now;
 
-        }       
+
+        }
 
     }
 }

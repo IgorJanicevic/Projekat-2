@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -14,9 +15,10 @@ namespace ProjekatProxy
     {
         private readonly Dictionary<int, List<Measurement>> localDataStore; // Lokalno čuvanje podataka
         private List<Measurement> dataFromServer=new List<Measurement>(); //Za cuvanje pomocna lista
-        private readonly TimeSpan dataExpirationTime; // Vreme nakon kojeg će lokalna kopija podataka biti obrisana
-        //private readonly string MessageFromClient; // Videcemo da li je potrebno
-        
+        private TimeSpan dataExpirationTime; // Vreme nakon kojeg će lokalna kopija podataka biti obrisana
+        private DateTime lastTime; //Poslednji poslat zahtev serveru
+        private int currentDevID; //
+
         // Za konekciju sa Serverom
         private TcpClient tcpClient;
 
@@ -72,13 +74,22 @@ namespace ProjekatProxy
             option = slc.StartReading(tcpTemp);
 
             //Blok koji proverava lokalne podatke
-            int trazeni = int.Parse(option);          
-       
+            currentDevID = int.Parse(option);
+
+            SendMeasureToServerOn5Minutes smts = new SendMeasureToServerOn5Minutes();
+            DateTime tempForLastUpdate = smts.lastUpdate();
+
+            if (HasLocalCopy(currentDevID, tempForLastUpdate, br))
+            {              
+                return null;
+            }
+
 
 
           //Blok koji salje nazad poruku
             slc.SendMessageToServer(option, tcpClient);
-          //this.SendMessage(option);         
+            lastTime = DateTime.Now;
+                   
 
             return option;
                
@@ -88,64 +99,166 @@ namespace ProjekatProxy
         public void AcceptDataFromServer()
         {
            dataFromServer= slc.AcceptDataFromServer(tcpClient);
+           
+            if (dataFromServer!=null)
+           UpdateLocalCopy(currentDevID, dataFromServer);             
         }
 
         //Metoda za slanje podatak nazad klijetnu
         public void SendDataToClient()
         {
             slc.SandList(dataFromServer,tcpTemp);
+            LogEvent($"Proxy sent data to client.");
         }
 
-        
 
-        // Metoda za obradu zahteva klijenta
-        // Potrebno je da se promeni return value
-        /*public List<double> ProcessClientRequest(int deviceID, DateTime lastAccessTime)
-        {
-            if (HasLocalCopy(deviceID, lastAccessTime))
-            {
-                LogEvent($"Local copy exists for Device ID {deviceID}. Retrieving locally.");
-                return localDataStore[deviceID];
-            }
-
-            LogEvent($"Local copy not found or outdated for Device ID {deviceID}. Requesting data from server.");
-            var serverData = server.GetDataFromProxy();
-
-            // Ažuriranje lokalne kopije podataka
-            UpdateLocalCopy(deviceID, serverData);
-
-            return serverData;
-        }*/
 
         // Privatna metoda za proveru lokalne kopije podataka
-        private bool HasLocalCopy(int deviceID, DateTime lastAccessTime)
+        private bool HasLocalCopy(int deviceID, DateTime lastAccessTime,int br)
         {
-            return localDataStore.ContainsKey(deviceID) &&
-                   (DateTime.Now - lastAccessTime) < dataExpirationTime;
+            int rezultatPoredjenja = DateTime.Compare(lastTime,lastAccessTime);
+            //Console.WriteLine($"POSLEDNJE UPTDATE: {lastAccessTime}\nPOSLENJI PROSTUP SERVERU: {lastTime}");
+            if (localDataStore.Count==0)
+                return false;
+            if (rezultatPoredjenja<0)
+            {
+                switch (br)
+                {
+                    case 1:
+                        if (localDataStore.ContainsKey(deviceID)) {
+                            slc.SandList(localDataStore[deviceID], tcpTemp);
+                            return true;
+                        }
+                        return false;
+                    case 2:
+                        return LastUpdated(deviceID);
+                    case 3:
+                        return LastUpdated(0);                      
+                    case 4:
+                        return DigitOrAnalog(0);
+                    case 5:
+                        return DigitOrAnalog(1);
+                }
+
+            }
+            return false;
+                   
         }
 
+    
         // Privatna metoda za ažuriranje lokalne kopije podataka
         private void UpdateLocalCopy(int deviceID, List<Measurement> serverData)
         {
+            if (deviceID == 0)
+                return;
+
             if (localDataStore.ContainsKey(deviceID))
             {
-                localDataStore[deviceID] = serverData;
-            }
+                //localDataStore[deviceID] = serverData;
+                localDataStore.Remove(deviceID);
+                localDataStore.Add(deviceID, serverData);
+            }   
             else
             {
                 localDataStore.Add(deviceID, serverData);
             }
-
+            Console.WriteLine($"Local copy updated for Device ID {deviceID}");
             LogEvent($"Local copy updated for Device ID {deviceID}.");
         }
 
         // Metoda za logovanje događaja
         private void LogEvent(string message)
         {
-            Console.WriteLine($"[Proxy] {DateTime.Now}: {message}");
+            //Console.WriteLine($"[Proxy] {DateTime.Now}: {message}");
+            string filePath = "C:\\Users\\HomePC\\Documents\\GitHub\\Projekat-2\\ProjekatProxy\\ProjekatProxy\\Proxy\\LokalnaKopija.txt";
+            File.AppendAllText(filePath, message + "\n");
         }
-      
-       
+        
+
+        //Proverava loklalnu kopiju za poslednje azuiranje vrednosti
+        private bool LastUpdated(int br)
+        {
+            List<Measurement> lisRet= new List<Measurement>();
+            if(br == 0){ //Za sve
+                foreach (int devID in localDataStore.Keys)
+                {
+                    Console.WriteLine(devID);
+                    if (localDataStore[devID] == null)
+                        continue;
+                    List<Measurement> temp = localDataStore[devID];
+                    Measurement first = temp[0];
+                    foreach (Measurement m in temp)
+                    {
+                        if (first.Timestamp.CompareTo(m.Timestamp) < 0)
+                        {
+                            first = m;
+                        }
+                    }
+                    lisRet.Add(first);
+                }
+                slc.SandList(lisRet, tcpTemp);
+                lisRet.Clear();
+                return true;
+
+            }
+            else //Za jedan ID 2. tacka
+            {
+                if (localDataStore.ContainsKey(br))
+                {
+                    List<Measurement> temp = localDataStore[br];
+                    Measurement first = temp[0];
+                    foreach (Measurement m in temp)
+                    {
+                        if (first.Timestamp.CompareTo(m.Timestamp) < 0)
+                        {
+                            first = m;
+                        }
+                    }
+                    lisRet.Add(first);
+                    slc.SandList(lisRet, tcpTemp);
+                    lisRet.Clear();
+                    return true;
+                }
+                return false;
+            }
+
+        }
+
+        //Proverava sve lokalne kopije digitalni i analognih merenja za vracanje klijentu
+        private bool DigitOrAnalog(int v)
+        {
+            List<Measurement> retVal= new List<Measurement>();
+            if (v == 0)
+            {
+                foreach(int dev in localDataStore.Keys)
+                {
+                    List<Measurement> LocalList= localDataStore[dev];
+                    foreach (Measurement m in LocalList)
+                    {
+                        if (m.IsAnalog)
+                            retVal.Add(m);
+                    }
+                }
+                slc.SandList(retVal, tcpTemp);
+                return true;
+            }
+            else
+            {
+                foreach (int dev in localDataStore.Keys)
+                {
+                    List<Measurement> LocalList = localDataStore[dev];
+                    foreach (Measurement m in LocalList)
+                    {
+                        if (!m.IsAnalog)
+                            retVal.Add(m);
+                    }
+                }
+                slc.SandList(retVal, tcpTemp);
+                return true;
+            }
+            return false;
+        }
+
 
     }
 }
