@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 //using System.Timers;
 
 namespace ProjekatProxy
@@ -24,6 +25,9 @@ namespace ProjekatProxy
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("**************************************************************************************");
+
+            // Provera starosti lokalne kopije
+            System.Threading.Timer timer = new System.Threading.Timer(LocalCopy, proxy, 0, 5 * 60 * 1000);
 
             //Lista uredjaja
             List<Device> devices = new List<Device>();
@@ -69,7 +73,6 @@ namespace ProjekatProxy
             Console.WriteLine("Aplikacija radi. Pritisnite Enter da završite.");
             Console.ReadLine();
 
-  
             cm.Dispose();
             sm.Dispose();           
 
@@ -122,6 +125,14 @@ namespace ProjekatProxy
 
             return true;
 
+        }
+
+        //Metoda za proveru starosti lokalne kopije
+        private static void LocalCopy(object state)
+        {   
+            
+            Proxy proxy = (Proxy)state;
+            proxy.CheckLocalCopyAge();
         }
     }
 }

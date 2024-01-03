@@ -190,6 +190,14 @@ namespace ProjekatProxy
                     Console.WriteLine("Ime korisnika ne sme krenuti brojem!");
                     return;
                 }
+                foreach(Client c in clients)
+                {
+                    if (c.Name.Equals(ime))
+                    {
+                        Console.WriteLine("Vec postoji klijent sa tim imenom!");
+                        return;
+                    }
+                }
 
                 //Ako ne postoji nijedan klijent onda ce trenutni biti prvi koji se doda
                 if(clients.Count() == 0)

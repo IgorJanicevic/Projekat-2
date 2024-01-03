@@ -198,6 +198,7 @@ namespace ProjekatProxy
                 }
                 slc.SandList(lisRet, tcpTemp);
                 lisRet.Clear();
+                SaveShutdownTime(DateTime.Now); // Pristupili smo lokalnoj kopiji
                 return true;
 
             }
@@ -217,6 +218,7 @@ namespace ProjekatProxy
                     lisRet.Add(first);
                     slc.SandList(lisRet, tcpTemp);
                     lisRet.Clear();
+                    SaveShutdownTime(DateTime.Now); // Pristupili smo lokalnoj kopiji
                     return true;
                 }
                 return false;
@@ -240,6 +242,7 @@ namespace ProjekatProxy
                     }
                 }
                 slc.SandList(retVal, tcpTemp);
+                SaveShutdownTime(DateTime.Now); // Pristupili smo lokalnoj kopiji
                 return true;
             }
             else
@@ -254,9 +257,47 @@ namespace ProjekatProxy
                     }
                 }
                 slc.SandList(retVal, tcpTemp);
+                SaveShutdownTime(DateTime.Now); // Pristupili smo lokalnoj kopiji
                 return true;
             }
             return false;
+        }
+        
+
+        //Upisavanje kada se poslednji put pristuplio lokalnoj kopiji
+        public void SaveShutdownTime(DateTime time)
+        {
+            Console.WriteLine("ASDLASPDKAS");
+            string filePath = "C:\\Users\\HomePC\\Documents\\GitHub\\Projekat-2\\ProjekatProxy\\ProjekatProxy\\Proxy\\shutdown.txt";
+            File.WriteAllText(filePath, time.ToString());
+        }
+
+        //Provera starosti pristupa lokalnoj kopiji
+        public void CheckLocalCopyAge()
+        {
+            string filePath = "C:\\Users\\HomePC\\Documents\\GitHub\\Projekat-2\\ProjekatProxy\\ProjekatProxy\\Proxy\\shutdown.txt";
+
+            // Provera da li fajl postoji
+            if (File.Exists(filePath))
+            {
+                // Čitanje vremena poslednjeg pristupa fajlu
+                string dateString = File.ReadAllText(filePath);
+                string format = "dd/MM/yyyy HH:mm:ss";
+                DateTime.TryParseExact(dateString, format, null, System.Globalization.DateTimeStyles.None, out DateTime lastAccessTime);
+
+                // Provera da li je prošlo više od 24 sata
+                if (DateTime.Now - lastAccessTime > TimeSpan.FromHours(24))
+                {
+                    // Fajl je stariji od 24 sata, možete izvršiti odgovarajuće akcije
+                    Console.WriteLine("Lokalna kopija je starija od 24 sata.");
+                    localDataStore.Clear();
+                }
+                
+            }
+            else
+            {
+                
+            }
         }
 
 
