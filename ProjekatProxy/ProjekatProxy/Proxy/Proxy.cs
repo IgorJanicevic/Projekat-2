@@ -267,7 +267,6 @@ namespace ProjekatProxy
         //Upisavanje kada se poslednji put pristuplio lokalnoj kopiji
         public void SaveShutdownTime(DateTime time)
         {
-            Console.WriteLine("ASDLASPDKAS");
             string filePath = "C:\\Users\\HomePC\\Documents\\GitHub\\Projekat-2\\ProjekatProxy\\ProjekatProxy\\Proxy\\shutdown.txt";
             File.WriteAllText(filePath, time.ToString());
         }

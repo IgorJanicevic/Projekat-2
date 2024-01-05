@@ -851,3 +851,55 @@ Local copy updated for Device ID 2.
 Proxy sent data to client.
 Proxy sent data to client.
 Proxy sent data to client.
+Local copy updated for Device ID 2.
+Proxy sent data to client.
+Local copy updated for Device ID 1.
+Proxy sent data to client.
+Local copy updated for Device ID 2.
+Proxy sent data to client.
+Proxy sent data to client.
+Proxy sent data to client.
+Proxy sent data to client.
+Proxy sent data to client.
+Proxy sent data to client.
+Local copy updated for Device ID 2.
+Proxy sent data to client.
+Local copy updated for Device ID 3.
+Proxy sent data to client.
+Local copy updated for Device ID 4.
+Proxy sent data to client.
+Proxy sent data to client.
+Proxy sent data to client.
+Proxy sent data to client.
+Local copy updated for Device ID 3.
+Proxy sent data to client.
+Proxy sent data to client.
+Local copy updated for Device ID 3.
+Proxy sent data to client.
+Local copy updated for Device ID 2.
+Proxy sent data to client.
+Local copy updated for Device ID 4.
+Proxy sent data to client.
+Local copy updated for Device ID 3.
+Proxy sent data to client.
+Local copy updated for Device ID 2.
+Proxy sent data to client.
+Proxy sent data to client.
+Proxy sent data to client.
+Proxy sent data to client.
+Proxy sent data to client.
+Proxy sent data to client.
+Proxy sent data to client.
+Proxy sent data to client.
+Proxy sent data to client.
+Proxy sent data to client.
+Local copy updated for Device ID 5.
+Proxy sent data to client.
+Local copy updated for Device ID 1.
+Proxy sent data to client.
+Local copy updated for Device ID 2.
+Proxy sent data to client.
+Local copy updated for Device ID 3.
+Proxy sent data to client.
+Local copy updated for Device ID 4.
+Proxy sent data to client.
