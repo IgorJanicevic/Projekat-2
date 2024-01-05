@@ -5,9 +5,3 @@ C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\obj\Debu
 C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\obj\Debug\ProjekatProxy.csproj.CoreCompileInputs.cache
 C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\obj\Debug\ProjekatProxy.exe
 C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\obj\Debug\ProjekatProxy.pdb
-C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\bin\Debug\nunit.framework.dll
-C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\bin\Debug\nunit.framework.legacy.dll
-C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\bin\Debug\System.Threading.Tasks.Extensions.dll
-C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\bin\Debug\nunit.framework.xml
-C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\bin\Debug\nunit.framework.legacy.xml
-C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjekatProxy\obj\Debug\ProjekatProxy.csproj.CopyComplete
