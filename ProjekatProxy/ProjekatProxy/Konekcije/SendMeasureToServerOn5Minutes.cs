@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -18,7 +19,8 @@ namespace ProjekatProxy
         }
         public void SendMeasure(Server server, Device devices)
         {
-            timer1 = new Timer(SendMeasureOn5Minutes, new Tuple<Server, Device>(server, devices), 0, 1 * 60 * 1000); // 5 minuta u milisekundama                             
+            int intervalZaSlanjeMerenja = int.Parse(ConfigurationManager.AppSettings["IntervalZaSlanjeMerenja"]);
+            timer1 = new Timer(SendMeasureOn5Minutes, new Tuple<Server, Device>(server, devices), 0, intervalZaSlanjeMerenja); // 5 minuta u milisekundama                             
         }
 
         public void Dispose()

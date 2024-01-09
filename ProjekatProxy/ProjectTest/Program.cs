@@ -11,6 +11,12 @@ namespace ProjectTest
     {
         static void Main(string[] args)
         {
+            MyTests myTests = new MyTests();
+
+            myTests.Test_CreateNewMeasure();
+            myTests.Test_RecordMeasurement();
+            myTests.Test_ProxyAcceptClient();
+            myTests.Test_AcceptClientMessage();
         }
     }
 }

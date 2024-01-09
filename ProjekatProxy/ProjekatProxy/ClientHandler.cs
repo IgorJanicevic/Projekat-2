@@ -107,7 +107,10 @@ namespace ProjekatProxy
                 current.SandMessage("0"); // Pomocno slanje poruka kako ne bi morali da unosimo poruku
                 if (proxy.AcceptClientMessage(current.Name, v) != null) //Ako postoji lokalna kopija preskace se ovo
                 {
-                    server.AcceptMessageFromProxy(v);
+                    if (server.AcceptMessageFromProxy(v) == null)
+                    {
+                        return;
+                    }
                     proxy.AcceptDataFromServer();
                     proxy.SendDataToClient();
                 }

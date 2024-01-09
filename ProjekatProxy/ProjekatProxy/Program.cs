@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -16,18 +17,16 @@ namespace ProjekatProxy
 
         static void Main(string[] args)
         {
-            
-          //Kreiranje instanci Servera, Proxy-ja i Klijenta
+            Console.WriteLine("--------------HEADER--------------");
+            //Kreiranje instanci Servera, Proxy-ja i Klijenta
             Server server = new Server(8080);
             Proxy proxy = new Proxy(server, TimeSpan.FromHours(24)); // Postavljamo vreme isteka lokalnih kopija na 24 sata
             server.AcceptProxy();
-
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("**************************************************************************************");
+            Console.WriteLine("----------------------------------");
 
             // Provera starosti lokalne kopije
-            System.Threading.Timer timer = new System.Threading.Timer(LocalCopy, proxy, 0, 5 * 60 * 1000);
+            int intervalZaProveruLokalneKopije = int.Parse(ConfigurationManager.AppSettings["IntervalZaProveruLokalneKopije"]);
+            System.Threading.Timer timer = new System.Threading.Timer(LocalCopy, proxy, 0,intervalZaProveruLokalneKopije);
 
             //Lista uredjaja
             List<Device> devices = new List<Device>();
@@ -73,6 +72,7 @@ namespace ProjekatProxy
             Console.WriteLine("Aplikacija radi. Pritisnite Enter da završite.");
             Console.ReadLine();
 
+            proxy.SaveShutdownTime(DateTime.Now);
             cm.Dispose();
             sm.Dispose();           
 

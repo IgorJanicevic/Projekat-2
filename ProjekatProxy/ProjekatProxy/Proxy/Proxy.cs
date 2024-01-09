@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
@@ -162,7 +163,7 @@ namespace ProjekatProxy
             {
                 localDataStore.Add(deviceID, serverData);
             }
-            Console.WriteLine($"Local copy updated for Device ID {deviceID}");
+           // Console.WriteLine($"Local copy updated for Device ID {deviceID}");
             LogEvent($"Local copy updated for Device ID {deviceID}.");
         }
 
@@ -170,8 +171,13 @@ namespace ProjekatProxy
         private void LogEvent(string message)
         {
             //Console.WriteLine($"[Proxy] {DateTime.Now}: {message}");
-            string filePath = "C:\\Users\\HomePC\\Documents\\GitHub\\Projekat-2\\ProjekatProxy\\ProjekatProxy\\Proxy\\LokalnaKopija.txt";
-            File.AppendAllText(filePath, message + "\n");
+            // Postavite relativnu putanju u odnosu na folder projekta
+            string relativePath = Path.Combine("LokalnaKopija.txt");
+
+            // Dobijte apsolutnu putanju od relativne
+            string absolutePath = Path.Combine(Directory.GetCurrentDirectory(), relativePath);
+
+            File.AppendAllText(absolutePath, message + "\n");
         }
         
 
@@ -267,15 +273,23 @@ namespace ProjekatProxy
         //Upisavanje kada se poslednji put pristuplio lokalnoj kopiji
         public void SaveShutdownTime(DateTime time)
         {
-            string filePath = "C:\\Users\\HomePC\\Documents\\GitHub\\Projekat-2\\ProjekatProxy\\ProjekatProxy\\Proxy\\shutdown.txt";
+            // Postavite relativnu putanju u odnosu na folder projekta
+            string relativePath = Path.Combine("shutdown.txt");
+
+            // Dobijte apsolutnu putanju od relativne
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), relativePath);
+
             File.WriteAllText(filePath, time.ToString());
         }
 
         //Provera starosti pristupa lokalnoj kopiji
         public void CheckLocalCopyAge()
         {
-            string filePath = "C:\\Users\\HomePC\\Documents\\GitHub\\Projekat-2\\ProjekatProxy\\ProjekatProxy\\Proxy\\shutdown.txt";
+            // Postavite relativnu putanju u odnosu na folder projekta
+            string relativePath = Path.Combine("shutdown.txt");
 
+            // Dobijte apsolutnu putanju od relativne
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), relativePath);
             // Provera da li fajl postoji
             if (File.Exists(filePath))
             {
@@ -285,7 +299,9 @@ namespace ProjekatProxy
                 DateTime.TryParseExact(dateString, format, null, System.Globalization.DateTimeStyles.None, out DateTime lastAccessTime);
 
                 // Provera da li je prošlo više od 24 sata
-                if (DateTime.Now - lastAccessTime > TimeSpan.FromHours(24))
+                int intervalStarosti = int.Parse(ConfigurationManager.AppSettings["IntervalStarostiLokalneKopije"]);
+
+                if (DateTime.Now - lastAccessTime > TimeSpan.FromHours(intervalStarosti))
                 {
                     // Fajl je stariji od 24 sata, možete izvršiti odgovarajuće akcije
                     Console.WriteLine("Lokalna kopija je starija od 24 sata.");

@@ -38,7 +38,7 @@ namespace ProjekatProxy
             bytesRead = networkStream.Read(buffer, 0, buffer.Length);
             if (bytesRead > 0) {
                 string message = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-                Console.WriteLine("Received message from proxy: " + message);
+               // Console.WriteLine("Received message from proxy: " + message);
                 return message;
 
                 // Ovde možete implementirati logiku za obradu poruke od proxy-ja

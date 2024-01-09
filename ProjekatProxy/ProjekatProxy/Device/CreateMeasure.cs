@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -16,7 +17,8 @@ namespace ProjekatProxy
         {
             try
             {
-                timer = new Timer(CreateNewMeasure, new Tuple<Device>(dev), 0, 1 * 60 * 200);
+                int intervalZaKreiranjeMerenja = int.Parse(ConfigurationManager.AppSettings["IntervalZaKreiranjeMerenja"]);
+                timer = new Timer(CreateNewMeasure, new Tuple<Device>(dev), 0,intervalZaKreiranjeMerenja);
             }catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);

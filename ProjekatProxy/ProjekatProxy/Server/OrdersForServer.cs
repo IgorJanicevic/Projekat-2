@@ -10,7 +10,13 @@ namespace ProjekatProxy
 {
     public class OrdersForServer
     {
-        string filePath = "C:\\Users\\HomePC\\Documents\\GitHub\\Projekat-2\\ProjekatProxy\\ProjekatProxy\\Server\\BazaPodataka.txt";
+        // Postavite relativnu putanju u odnosu na folder projekta
+        private static string relativePath = Path.Combine("BazaPodataka.txt");
+
+        // Dobijte apsolutnu putanju od relativne
+        private static string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativePath);
+
+
         //Metoda za dobavljanje svih merenja od odrjdenog ID-ja
         public List<Measurement> AllDataFromID(int devID)
         {

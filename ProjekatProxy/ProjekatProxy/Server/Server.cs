@@ -235,11 +235,21 @@ namespace ProjekatProxy
         // Metoda za logovanje događaja
         public void LogEvent(string message)
         {
-       
-            string filePath = "C:\\Users\\HomePC\\Documents\\GitHub\\Projekat-2\\ProjekatProxy\\ProjekatProxy\\Server\\BazaPodataka.txt";
+            // Postavite relativnu putanju u odnosu na folder projekta
+            string relativePath = Path.Combine("BazaPodataka.txt");
 
-           
-                File.AppendAllText(filePath, message + "\n");
+            // Dobijte apsolutnu putanju od relativne
+            string absolutePath = Path.Combine(Directory.GetCurrentDirectory(), relativePath);
+
+            // Proverite da li postoji direktorijum, ako ne, kreirajte ga
+            string directory = Path.GetDirectoryName(absolutePath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            // Upotrebite apsolutnu putanju
+            File.AppendAllText(absolutePath, message + Environment.NewLine);
             lastChange = DateTime.Now;
 
 

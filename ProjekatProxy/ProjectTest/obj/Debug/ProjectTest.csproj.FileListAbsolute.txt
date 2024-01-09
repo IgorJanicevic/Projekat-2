@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 C:\Users\PC User\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\ProjectTest.exe.config
 C:\Users\PC User\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\ProjectTest.exe
 C:\Users\PC User\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\ProjectTest.pdb
@@ -21,3 +22,28 @@ C:\Users\PC User\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\obj\Debug
 C:\Users\PC User\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\obj\Debug\ProjectTest.csproj.CopyComplete
 C:\Users\PC User\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\obj\Debug\ProjectTest.exe
 C:\Users\PC User\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\obj\Debug\ProjectTest.pdb
+=======
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\ProjectTest.exe.config
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\ProjectTest.exe
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\ProjectTest.pdb
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\nunit.framework.dll
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\nunit.framework.legacy.dll
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\nunit.framework.xml
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\nunit.framework.legacy.xml
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\obj\Debug\ProjectTest.csproj.AssemblyReference.cache
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\obj\Debug\ProjectTest.csproj.CoreCompileInputs.cache
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\obj\Debug\ProjectTest.csproj.CopyComplete
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\obj\Debug\ProjectTest.exe
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\obj\Debug\ProjectTest.pdb
+>>>>>>> Stashed changes
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\Castle.Core.dll
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\Moq.dll
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\ProjekatProxy.exe
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\ProjekatProxy.pdb
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\ProjekatProxy.exe.config
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\Castle.Core.xml
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\Moq.xml
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\System.Threading.Tasks.Extensions.xml

@@ -50,6 +50,7 @@ namespace ProjectTest
             // Možete dodati dodatne asertacije kako biste proverili tačnost snimljenog merenja.
             // Na primer: Assert.That(device.Measurements[0].Value, Is.GreaterThan(0));
         }
+        private Server server;
 
         //PROXY
 
@@ -57,7 +58,7 @@ namespace ProjectTest
         public void Test_ProxyAcceptClient()
         {
             // Arrange
-            var proxy = new Proxy(new DummyServer(), TimeSpan.FromMinutes(5));
+            var proxy = new Proxy(new DummyServer, TimeSpan.FromMinutes(5));
 
             // Act
             proxy.ProxyAcceptClient("Client1");
@@ -117,7 +118,6 @@ namespace ProjectTest
 
         //SERVER
 
-        private Server server;
 
         [SetUp]
         public void Setup_Server()
@@ -176,8 +176,13 @@ namespace ProjectTest
             server.LogEvent(message);
 
             // Assert
-            string filePath = "C:\\Users\\HomePC\\Documents\\GitHub\\Projekat-2\\ProjekatProxy\\ProjekatProxy\\Server\\BazaPodataka.txt";
-            string logContent = File.ReadAllText(filePath);
+            // Postavite relativnu putanju u odnosu na folder projekta
+            string relativePath = Path.Combine("BazaPodataka.txt");
+
+            // Dobijte apsolutnu putanju od relativne
+            string absolutePath = Path.Combine(Directory.GetCurrentDirectory(), relativePath);
+
+            string logContent = File.ReadAllText(absolutePath);
             //Assert.IsTrue(logContent.Contains(message));
         }
 
