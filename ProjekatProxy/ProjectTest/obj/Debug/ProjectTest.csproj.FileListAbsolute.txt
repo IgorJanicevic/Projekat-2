@@ -47,3 +47,5 @@ C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\
 C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\Moq.xml
 C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\System.Configuration.ConfigurationManager.dll
+C:\Users\HomePC\Documents\GitHub\Projekat-2\ProjekatProxy\ProjectTest\bin\Debug\System.Configuration.ConfigurationManager.xml

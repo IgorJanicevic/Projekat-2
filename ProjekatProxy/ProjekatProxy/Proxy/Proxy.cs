@@ -16,7 +16,6 @@ namespace ProjekatProxy
     {
         private readonly Dictionary<int, List<Measurement>> localDataStore; // Lokalno čuvanje podataka
         private List<Measurement> dataFromServer=new List<Measurement>(); //Za cuvanje pomocna lista
-        private TimeSpan dataExpirationTime; // Vreme nakon kojeg će lokalna kopija podataka biti obrisana
         private DateTime lastTime; //Poslednji poslat zahtev serveru
         private int currentDevID; //
 
@@ -31,10 +30,9 @@ namespace ProjekatProxy
         public TcpClient tcpTemp;
 
 
-        public Proxy(Server s, TimeSpan dataExpirationTime)
+        public Proxy(Server s)
         {
             localDataStore = new Dictionary<int, List<Measurement>>();
-            this.dataExpirationTime = dataExpirationTime;
 
             
             try

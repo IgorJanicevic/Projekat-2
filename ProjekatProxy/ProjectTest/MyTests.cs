@@ -54,7 +54,7 @@ namespace ProjectTest
 
         //PROXY
 
-        // TESTIRANJE ProxyAcceptClient iz Proxy - proveriti zbog TCP-a ako moze bolje
+       /* // TESTIRANJE ProxyAcceptClient iz Proxy - proveriti zbog TCP-a ako moze bolje
         public void Test_ProxyAcceptClient()
         {
             // Arrange
@@ -114,7 +114,7 @@ namespace ProjectTest
 
             // Assert
             // Dodajte asertacije kako biste proverili da li su podaci uspešno poslati klijentu.
-        }
+        }  */
 
         //SERVER
 

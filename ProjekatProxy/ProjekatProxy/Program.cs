@@ -20,7 +20,7 @@ namespace ProjekatProxy
             Console.WriteLine("--------------HEADER--------------");
             //Kreiranje instanci Servera, Proxy-ja i Klijenta
             Server server = new Server(8080);
-            Proxy proxy = new Proxy(server, TimeSpan.FromHours(24)); // Postavljamo vreme isteka lokalnih kopija na 24 sata
+            Proxy proxy = new Proxy(server); // Postavljamo vreme isteka lokalnih kopija na 24 sata
             server.AcceptProxy();
             Console.WriteLine("----------------------------------");
 

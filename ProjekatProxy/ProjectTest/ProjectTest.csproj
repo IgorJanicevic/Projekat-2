@@ -71,9 +71,6 @@
     <Compile Include="MyTests.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server\IServer.cs" />
-    <Compile Include="Server\OrdersForServer.cs" />
-    <Compile Include="Server\Server.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
