@@ -40,14 +40,17 @@ namespace ProjectTest
             DeviceTests deviceTests = new DeviceTests();
             deviceTests.AddDeviceToList_ShouldAddDeviceToList(devices, server, cm, sm);
 
-            ClientTests clientTests= new ClientTests(proxy,server);
-            //clientTests.TestZaKreiranjeKlijenta();
+
+            MyTests myTests = new MyTests();
+            myTests.Test_CreateNewMeasure();
+            myTests.Test_RecordMeasurement();
+            myTests.Setup_Client();
             
 
 
 
 
-            Console.WriteLine("Aplikacija radi. Pritisnite Enter da završite.");
+            Console.WriteLine("\nAplikacija radi. Pritisnite Enter da završite.");
             Console.ReadLine();
 
             proxy.SaveShutdownTime(DateTime.Now);

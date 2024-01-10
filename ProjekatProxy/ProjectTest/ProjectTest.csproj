@@ -70,7 +70,6 @@
   <ItemGroup>
     <Compile Include="ConsoleReader.cs" />
     <Compile Include="IConsoleReader.cs" />
-    <Compile Include="Testovi\ClientTests.cs" />
     <Compile Include="Testovi\DeviceTests.cs" />
     <Compile Include="Testovi\MyTests.cs" />
     <Compile Include="Program.cs" />
