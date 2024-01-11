@@ -17,13 +17,12 @@ namespace ProjekatProxy
         private readonly Dictionary<int, List<Measurement>> localDataStore; // Lokalno čuvanje podataka
         private List<Measurement> dataFromServer=new List<Measurement>(); //Za cuvanje pomocna lista
         private DateTime lastTime; //Poslednji poslat zahtev serveru
-        private int currentDevID; //
+        private int currentDevID; // ID trenutnog uredjaja
 
         // Za konekciju sa Serverom
         private TcpClient tcpClient;
 
         // Za konekciju sa Klijentima
-
         private ServerListenClient slc= new ServerListenClient();
         private TcpListener ListenerForClients;
         private Dictionary<string,TcpClient> tcpClients= new Dictionary<string, TcpClient>();
@@ -34,7 +33,6 @@ namespace ProjekatProxy
         {
             localDataStore = new Dictionary<int, List<Measurement>>();
 
-            
             try
             {
                 //Konekcija sa Serverom na pocetku
@@ -46,7 +44,6 @@ namespace ProjekatProxy
             }
             Console.WriteLine("Proxy connected to server");           
           
-
             // Slusanje klijenata
             ListenerForClients = new TcpListener(IPAddress.Any, 5000);
             ListenerForClients.Start();
@@ -84,15 +81,11 @@ namespace ProjekatProxy
                 return null;
             }
 
-
-
-          //Blok koji salje nazad poruku
+            //Blok koji salje nazad poruku
             slc.SendMessageToServer(option, tcpClient);
             lastTime = DateTime.Now;
                    
-
             return option;
-               
         }
 
         //Prihvatanje podataka sa servera
@@ -116,8 +109,8 @@ namespace ProjekatProxy
         // Privatna metoda za proveru lokalne kopije podataka
         private bool HasLocalCopy(int deviceID, DateTime lastAccessTime,int br)
         {
+            //POSLEDNJE UPTDATE = lastAccessTime; POSLENJI PROSTUP SERVERU = lastTime
             int rezultatPoredjenja = DateTime.Compare(lastTime,lastAccessTime);
-            //Console.WriteLine($"POSLEDNJE UPTDATE: {lastAccessTime}\nPOSLENJI PROSTUP SERVERU: {lastTime}");
             if (localDataStore.Count==0)
                 return false;
             if (rezultatPoredjenja<0) //Proveravamo da li je lokalna kopija napravljena posle poslednjeg merenja koji se poslat serveru
@@ -154,7 +147,6 @@ namespace ProjekatProxy
 
             if (localDataStore.ContainsKey(deviceID))
             {
-                //localDataStore[deviceID] = serverData;
                 localDataStore.Remove(deviceID);
                 localDataStore.Add(deviceID, serverData);
             }   
@@ -162,14 +154,12 @@ namespace ProjekatProxy
             {
                 localDataStore.Add(deviceID, serverData);
             }
-           // Console.WriteLine($"Local copy updated for Device ID {deviceID}");
             LogEvent($"Local copy updated for Device ID {deviceID}.");
         }
 
         // Metoda za logovanje događaja
         private void LogEvent(string message)
         {
-            //Console.WriteLine($"[Proxy] {DateTime.Now}: {message}");
             // Postavite relativnu putanju u odnosu na folder projekta
             string relativePath = Path.Combine("ProxyLog.txt");
 

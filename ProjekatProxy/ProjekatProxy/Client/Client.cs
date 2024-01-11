@@ -32,11 +32,6 @@ namespace ProjekatProxy
             {
                 Console.WriteLine(ex.Message + "Client not connected on proxy");
             }
-            //Console.WriteLine("Connected to Proxy");
-
-            // Ovde možete implementirati logiku za slanje poruka serveru
-
-            
         }
 
         //Metoda za slanje poruke proxy-ju
@@ -48,7 +43,7 @@ namespace ProjekatProxy
         //Metoda za slanje vec unapred definisane poruke //ZA IZBOR OPERACIJE..
         public void SandMessage(string message)
         {
-                slc.SendMessageToServer(message, tcpClient);
+            slc.SendMessageToServer(message, tcpClient);
            
         }
 

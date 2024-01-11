@@ -18,13 +18,9 @@ namespace ProjekatProxy
         //Metoda za prihvatanje zahteva od strane proxy
         public TcpClient AcceptClient(TcpListener tcpListener)
         {
-
-            // Čekaj na konekciju od proxy-ja
-            tcpClient = tcpListener.AcceptTcpClient();
-            //Console.WriteLine("\nClient connected to server");            
+            tcpClient = tcpListener.AcceptTcpClient();            
 
             return tcpClient;
-
         }
 
         //Metoda za citanje poruke 
@@ -38,14 +34,10 @@ namespace ProjekatProxy
             bytesRead = networkStream.Read(buffer, 0, buffer.Length);
             if (bytesRead > 0) {
                 string message = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-               // Console.WriteLine("Received message from proxy: " + message);
                 return message;
-
-                // Ovde možete implementirati logiku za obradu poruke od proxy-ja
             }
 
             return null;
-
         }
 
         //Metoda za slanje poruke serveru sa odredjenom naredbom  
@@ -56,7 +48,6 @@ namespace ProjekatProxy
                 NetworkStream networkStream = client.GetStream();
                 byte[] buffer = Encoding.ASCII.GetBytes(message);
                 networkStream.Write(buffer, 0, buffer.Length);
-                //Console.WriteLine("Sent message to server: " + message);
             }
             catch (Exception e)
             {
@@ -69,17 +60,13 @@ namespace ProjekatProxy
         {
             string message="";
 
-            
-                Console.Write("Unesi ID: ");
-                message = Console.ReadLine();
-                int temp = int.Parse(message);
-               
-           
-                NetworkStream networkStream = tcpClient.GetStream();
-                byte[] buffer = Encoding.ASCII.GetBytes(message);
-                networkStream.Write(buffer, 0, buffer.Length);
-                //Console.WriteLine("Sent message to server: " + message);      
+            Console.Write("Unesi ID: ");
+            message = Console.ReadLine();
+            int temp = int.Parse(message);
 
+            NetworkStream networkStream = tcpClient.GetStream();
+            byte[] buffer = Encoding.ASCII.GetBytes(message);
+            networkStream.Write(buffer, 0, buffer.Length);
         }
 
 
@@ -91,14 +78,14 @@ namespace ProjekatProxy
             // Kreirajte memoriju za serijalizaciju
             MemoryStream memoryStream = new MemoryStream();
 
-            // Koristite BinaryFormatter za serijalizaciju liste
+            // Koriscenje BinaryFormatter za serijalizaciju liste
             BinaryFormatter formatter = new BinaryFormatter();
             formatter.Serialize(memoryStream, lista);
 
-            // Dohvatite bajtove iz memorije
+            // Hvatanje bajtova iz memorije
             byte[] serializedData = memoryStream.ToArray();
 
-            // Šaljete podatke na proxy
+            // Slanje podataka na proxy
             NetworkStream stream = tcpClient.GetStream();
             stream.Write(serializedData, 0, serializedData.Length);
         }
@@ -107,20 +94,19 @@ namespace ProjekatProxy
         //Metoda za prihvatanje liste podataka od strane servera
         public List<Measurement> AcceptDataFromServer(TcpClient tcpClient)
         {
-            // Čitate podatke sa servera
+            // Čitanje podataka sa servera
             NetworkStream stream = tcpClient.GetStream();
             BinaryFormatter formatter = new BinaryFormatter();
 
-            // Dohvatite bajtove sa mreže
+            // Hvatanje bajtova iz mreze
             byte[] receivedData = new byte[4096]; // Prilagodite veličinu bafera prema vašim potrebama
             int bytesRead = stream.Read(receivedData, 0, receivedData.Length);
 
-            // Kreirajte memoriju za deserijalizaciju
+            // Kreiranje memorije za deserijalizaciju
             MemoryStream memoryStream = new MemoryStream(receivedData, 0, bytesRead);
 
-            // Deserijalizujete podatke u listu
+            // Deserijalizacija podataka u listu
             List<Measurement> receivedMeasurements = (List<Measurement>)formatter.Deserialize(memoryStream);
-       
 
             if(receivedMeasurements.Count== 0) {
                 Console.WriteLine("\nUneli ste uredjaj sa nepostojecim ID-jem!");
