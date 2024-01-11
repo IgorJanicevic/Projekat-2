@@ -298,7 +298,7 @@ namespace ProjekatProxy
             }
             else
             {
-                
+                Console.WriteLine("Fajl koji trazite ne postoji na ovoj putanji!");
             }
         }
 
