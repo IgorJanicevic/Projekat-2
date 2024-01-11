@@ -71,7 +71,6 @@
     <Compile Include="ConsoleReader.cs" />
     <Compile Include="IConsoleReader.cs" />
     <Compile Include="Testovi\DeviceTests.cs" />
-    <Compile Include="Testovi\MyTests.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

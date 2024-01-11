@@ -39,12 +39,8 @@ namespace ProjectTest
 
             DeviceTests deviceTests = new DeviceTests();
             deviceTests.AddDeviceToList_ShouldAddDeviceToList(devices, server, cm, sm);
-
-
-            MyTests myTests = new MyTests();
-            myTests.Test_CreateNewMeasure();
-            myTests.Test_RecordMeasurement();
-            myTests.Setup_Client();
+            deviceTests.Test_CreateNewMeasure();
+            deviceTests.Test_RecordMeasurement();
             
 
 

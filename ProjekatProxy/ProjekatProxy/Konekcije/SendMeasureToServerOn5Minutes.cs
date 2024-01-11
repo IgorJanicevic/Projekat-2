@@ -13,6 +13,7 @@ namespace ProjekatProxy
         private Timer timer1;
         public static DateTime lastChange;
 
+        //Metoda koja vraca vreme kada je poslednje merenje poslato serveru
         public DateTime lastUpdate()
         {
             return lastChange;

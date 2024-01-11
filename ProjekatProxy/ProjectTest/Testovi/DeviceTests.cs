@@ -12,7 +12,7 @@ namespace ProjectTest.Testovi
 {
     public class DeviceTests
     {
-        //Test za unos ID-jeva uredjaja
+        //Metoda za dodavanje uredjaja u listu iz program.cs
         private static bool AddDeviceToList(List<Device> d, Server server, CreateMeasure cm, SendMeasureToServerOn5Minutes sm,
             IConsoleReader consoleReader)
         {
@@ -56,22 +56,20 @@ namespace ProjectTest.Testovi
             return true;
 
         }
-      
+
+
+        //TESTIRANJE za unos ID-jeva uredjaja
         public void AddDeviceToList_ShouldAddDeviceToList(List<Device> d,Server server,CreateMeasure cm,SendMeasureToServerOn5Minutes sm)
         {
-            // Arrange
+
             var mockConsoleReader = new Mock<IConsoleReader>();
             mockConsoleReader.Setup(cr => cr.ReadLine()).Returns("ff"); // Simulacija unosa sa konzole
 
-            var yourClassInstance = new DeviceTests(); // Promenite ovo prema vašem stvarnom scenariju
+            var yourClassInstance = new DeviceTests(); 
 
-            // ... Dodajte ostale mock-ove i inicijalizaciju objekata ako je potrebno ...
-
-            // Act
             var result = DeviceTests.AddDeviceToList(d, server, cm, sm, mockConsoleReader.Object);
 
-            // Assert
-            if(result == true )
+            if(result == false )
             {
                 Console.WriteLine("Greska klijent ne sme da unese slova za ID uredjaja");
             }
@@ -82,14 +80,39 @@ namespace ProjectTest.Testovi
             mockConsoleReader.Setup(cr => cr.ReadLine()).Returns("2"); // Simulacija unosa sa konzole
             result = DeviceTests.AddDeviceToList(d, server, cm, sm, mockConsoleReader.Object);
 
-            if(result == true )
+            if(result == false )
             {
                 Console.WriteLine("Klijent ne sme da unese dva ista ID-ja");
-            }
+            }           
 
             Console.WriteLine("Uspesno su prosli testovi za unos id uredjaj");
 
 
+        }
+
+        // TESTIRANJE za kreiranje merenja
+        public void Test_CreateNewMeasure()
+        {
+
+            Device device = new Device(0);
+            CreateMeasure createMeasure = new CreateMeasure();
+
+            CreateMeasure.CreateNewMeasure(new Tuple<Device>(device));
+
+            Assert.That(device.Measurements.Count, Is.EqualTo(2)); // Očekujemo da će biti zabeleženo tačno 2 merenja.
+            Console.WriteLine("Uspesno kreirano merenje");
+        }
+
+        // TESTIRANJE za zapisivanje merenja
+        public void Test_RecordMeasurement()
+        {
+
+            Device device = new Device(1);
+
+            device.RecordMeasurement(new Random());
+
+            Assert.That(device.Measurements.Count, Is.EqualTo(1));
+            Console.WriteLine("Uspesno izmereno merenje");
         }
 
     }

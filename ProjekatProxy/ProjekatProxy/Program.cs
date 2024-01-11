@@ -40,8 +40,6 @@ namespace ProjekatProxy
           //Slanje svih merenja sa svih uredjaja koji se ne nalaze na serveru
             SendMeasureToServerOn5Minutes sm = new SendMeasureToServerOn5Minutes();
 
-
-
             do
             {
 
@@ -67,17 +65,12 @@ namespace ProjekatProxy
             } while (!temp1.ToUpper().Equals("X"));
 
 
-
-
             Console.WriteLine("Aplikacija radi. Pritisnite Enter da završite.");
             Console.ReadLine();
 
             proxy.SaveShutdownTime(DateTime.Now);
             cm.Dispose();
-            sm.Dispose();           
-
-            
-
+            sm.Dispose();               
             
         }
   

@@ -66,6 +66,7 @@ namespace ProjekatProxy
         {
             //Blok koji prihvata poruku
             string option=null;
+            //Proverava ime klijenta i kada ga pronadje postavlja ga za trenutnog
             if(tcpClients.ContainsKey(name))
             {
                 tcpTemp= tcpClients[name];
@@ -119,7 +120,7 @@ namespace ProjekatProxy
             //Console.WriteLine($"POSLEDNJE UPTDATE: {lastAccessTime}\nPOSLENJI PROSTUP SERVERU: {lastTime}");
             if (localDataStore.Count==0)
                 return false;
-            if (rezultatPoredjenja<0)
+            if (rezultatPoredjenja<0) //Proveravamo da li je lokalna kopija napravljena posle poslednjeg merenja koji se poslat serveru
             {
                 switch (br)
                 {
@@ -170,7 +171,7 @@ namespace ProjekatProxy
         {
             //Console.WriteLine($"[Proxy] {DateTime.Now}: {message}");
             // Postavite relativnu putanju u odnosu na folder projekta
-            string relativePath = Path.Combine("LokalnaKopija.txt");
+            string relativePath = Path.Combine("ProxyLog.txt");
 
             // Dobijte apsolutnu putanju od relativne
             string absolutePath = Path.Combine(Directory.GetCurrentDirectory(), relativePath);
@@ -247,7 +248,6 @@ namespace ProjekatProxy
                 }
                 slc.SandList(retVal, tcpTemp);
                 SaveShutdownTime(DateTime.Now); // Pristupili smo lokalnoj kopiji
-                return true;
             }
             else
             {
@@ -262,9 +262,8 @@ namespace ProjekatProxy
                 }
                 slc.SandList(retVal, tcpTemp);
                 SaveShutdownTime(DateTime.Now); // Pristupili smo lokalnoj kopiji
-                return true;
             }
-            return false;
+            return true;
         }
         
 
